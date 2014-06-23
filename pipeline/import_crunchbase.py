@@ -2,10 +2,10 @@ import simplejson as json
 from flask import jsonify
 import urllib2
 import urllib
-import jsonpath
+#import jsonpath
 import time
 from app import *
-from models import *
+from models import models
 
 TEST_API_KEY = 'f247296fc35c9f7acadb3551b4c612a2'
 
