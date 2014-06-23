@@ -86,7 +86,7 @@ def createCompany(x):
 	response = getOrganizationData(x)
 
 	#name
-	name = json.dumps(response["data"]["properties"]["name"])
+	name = (response["data"]["properties"]["name"])
 
 	#homepage_url
 	homepage_url = json.dumps(response["data"]["properties"]["homepage_url"])
