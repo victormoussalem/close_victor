@@ -11,6 +11,8 @@ HEROKU = 'HEROKU' in os.environ
 
 if HEROKU:
     print "heroku"
+    print DATABASE_URL
+    print SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 else:
     print "not heroku"
