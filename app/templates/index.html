@@ -1,1 +1,206 @@
-Index
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://d3js.org/topojson.v1.min.js"></script>
+<!--	<script src=".../js/jquery-1.11.0.min.js"></script>  
+	<script src=".../js/script.js"></script> -->
+</head>
+<style>
+
+.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+#licensing {
+  fill: green;
+}
+
+.link.licensing {
+  stroke: blue;
+}
+
+.link.resolved {
+  stroke-dasharray: 0,2 1;
+}
+
+circle {
+  fill: #ccc;
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}
+
+</style>
+<body>
+	<script type="text/javascript">
+
+/*
+var links = [
+
+  {source: "Google", target: "Wildfire ", type: "licensing"},
+  {source: "Facebook", target: "WhatsApp" , type: "licensing"},
+  {source: "Facebook", target: "Oculus" , type: "licensing"},
+  {source: "Apple", target: "Beats" , type: "licensing"},
+  {source: "Google", target: "Nest Labs" , type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "okia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Noia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "NokiaMbile", type: "licensing"},
+  {source: "Microsoft", target: "okia obile", type: "resolved"},
+  {source: "Microsoft", target: "NMobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokiabil", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Microsoft", target: "Nokia Mobile", type: "licensing"},
+  {source: "Yahoo" , target: "Rivals", type: "licensing"}
+
+];
+*/
+var real = []
+var links = {{ root | tojson | safe }} ;
+
+for (var i = 0; i < links.length; i++) {
+	for (var j = 0; j < links[i].target.length; j++) {
+		console.log(links[i].source + "->" + links[i].target[j]);
+//		if (links[i].target[j] != "Acquisition") {
+			real.push({source: links[i].source, target: links[i].target[j]});
+//		}
+	}
+}
+links.forEach(function(link) {
+	link.target.forEach(function(target) {
+		console.log(link.source + "->>" + target);
+	});
+});
+
+console.log(links.length);
+var nodes = {};
+
+/*
+links -> source: 7 companies, target: lists for each of them
+link represents each source/target combo (7 of them)
+target represents each target within each link
+*/
+/*
+links.forEach(function(link) {
+	//link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+
+	link.target.forEach(function(target) {
+		link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+		link.target = nodes[target] || (nodes[target] = {name: target});
+	});
+*/
+/*
+	for (var i = 0; i < link.target.length; i++) {
+		link.source = nodes[link.source];
+		(nodes[link.source] = {name: link.source});
+		link.target = nodes[link.target[i]];
+		(nodes[link.target[i]] = {name: link.target[i]});
+}
+*/
+//});
+
+/*
+for (var i = 0; i < links.length; i++) {
+	link[i].source = nodes[links[i].source] || (nodes[links[i].source] = {name: links[i].source});
+	for (var j = 0; j < links[i].target.length; j++) {
+		links[i].target[j] = nodes[links[i].target[j]] || (nodes[links[i].target[j]] = {name: links[i].target[j]});
+	}
+}
+*/
+
+
+// Compute the distinct nodes from the links.
+real.forEach(function(link) {
+link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
+
+
+
+/*
+var width = 960,
+    height = 500;
+*/
+
+var width = 2000,
+    height = 1000;
+
+var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(real)
+    .size([width, height])
+    .linkDistance(60)
+    .charge(-300)
+    .on("tick", tick)
+    .start();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// Per-type markers, as they don't inherit styles.
+svg.append("defs").selectAll("marker")
+    .data(["suit", "licensing", "resolved"])
+  .enter().append("marker")
+    .attr("id", function(d) { return d; })
+    .attr("viewBox", "0 -5 10 10")
+    .attr("refX", 15)
+    .attr("refY", -1.5)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto")
+  .append("path")
+    .attr("d", "M0,-5L10,0L0,5");
+
+var path = svg.append("g").selectAll("path")
+    .data(force.links())
+  .enter().append("path")
+    .attr("class", function(d) { return "link " + d.type; })
+    .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
+
+var circle = svg.append("g").selectAll("circle")
+    .data(force.nodes())
+  .enter().append("circle")
+    .attr("r", 6)
+    .call(force.drag);
+
+var text = svg.append("g").selectAll("text")
+    .data(force.nodes())
+  .enter().append("text")
+    .attr("x", 8)
+    .attr("y", ".31em")
+    .text(function(d) { return d.name; });
+
+// Use elliptical arc path segments to doubly-encode directionality.
+function tick() {
+  path.attr("d", linkArc);
+  circle.attr("transform", transform);
+  text.attr("transform", transform);
+}
+
+function linkArc(d) {
+  var dx = d.target.x - d.source.x,
+      dy = d.target.y - d.source.y,
+      dr = Math.sqrt(dx * dx + dy * dy);
+  return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+}
+
+function transform(d) {
+  return "translate(" + d.x + "," + d.y + ")";
+}
+	</script>
+</body>
