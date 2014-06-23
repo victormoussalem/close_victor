@@ -15,5 +15,5 @@ if HEROKU:
 else:
     print "not heroku"
     app.config['DEBUG'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://victor:password@localhost/close_projects'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/close_projects'
     app.config['SQLALCHEMY_ECHO'] = False
