@@ -1,0 +1,59 @@
+Script started on Mon Jun 23 17:31:19 2014
+[?1034h[0;31mvictormoussalem[m [1;34m~/Documents/close_victor[m [0;31m$ [m[0;32mvi app/[K[K[K[Kpipeline/import_crunchbase.py 
+[?1049h[?1h=[1;58r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[58;1H"pipeline/import_crunchbase.py" 290L, 10787C[>c[1;1H[38;5;130m  1 [m[34m#import simplejson as json[m
+[38;5;130m  2 [m[35mimport[m json
+[38;5;130m  3 [m[35mfrom[m flask [35mimport[m jsonify
+[38;5;130m  4 [m[35mimport[m urllib2
+[38;5;130m  5 [m[35mimport[m urllib
+[38;5;130m  6 [m[34m#import jsonpath[m
+[38;5;130m  7 [m[35mimport[m time
+[38;5;130m  8 [m[35mfrom[m app [35mimport[m *
+[38;5;130m  9 [m[35mfrom[m models [35mimport[m models
+[38;5;130m 10 
+ 11 [mTEST_API_KEY = [31m'f247296fc35c9f7acadb3551b4c612a2'[m
+[38;5;130m 12 
+ 13 [mAPI_BASE_URL = [31m"http://api.crunchbase.com/"[m
+[38;5;130m 14 [mAPI_VERSION = [31m"2"[m
+[38;5;130m 15 [mAPI_URL = API_BASE_URL + [31m"v"[m + [31m"/"[m + API_VERSION + [31m"/"[m
+[38;5;130m 16 
+ 17 [m[34m#companies = ["Facebook", "Google", "Apple", "Microsoft", "Yahoo", "Dropbox", "Twitter", "Box", "Amazon", "Linkedin" ][m
+[38;5;130m 18 [mcompanies = [[31m"Dropbox"[m, [31m"Facebook"[m, [31m"Pinterest"[m, [31m"Google"[m, [31m"Samsung-Electronics"[m, [31m"Verizon"[m, [31m"GoPro"[m, [31m"Microsoft"[m, [31m"Twitter"[m, [31m"Apple"[m]
+[38;5;130m 19 
+ 20 [minvestors = [[31m""[m]
+[38;5;130m 21 
+ 22 def[m [36m__webRequest[m(url):
+[38;5;130m 23 [m    [38;5;130mtry[m:
+[38;5;130m 24 [m      response = urllib2.urlopen(url)
+[38;5;130m 25 [m      result = response.read()
+[38;5;130m 26 [m      [38;5;130mreturn[m result
+[38;5;130m 27 [m    [38;5;130mexcept[m urllib2.HTTPError [38;5;130mas[m e:
+[38;5;130m 28 [m      [38;5;130mraise[m [32mException[m
+[38;5;130m 29 
+ 30 def[m [36m__getJsonData2[m(namespace, query=[31m""[m):
+[38;5;130m 31 [m    url = API_URL + namespace + [31m"?user_key="[m + TEST_API_KEY + query
+[38;5;130m 32 [m    [36mprint[m url
+[38;5;130m 33 [m    response_dict = json.loads(__webRequest(url))
+[38;5;130m 34 [m    [38;5;130mreturn[m response_dict
+[38;5;130m 35 
+ 36 def[m [36mgetOrganizationData[m(permalink):
+[38;5;130m 37 [m    result = __getJsonData2([31m"organization/"[m + permalink)
+[38;5;130m 38 [m    [38;5;130mreturn[m result
+[38;5;130m 39 
+ 40 def[m [36mgetCompetitorsData[m(permalink):
+[38;5;130m 41 [m    result = __getJsonData2([31m"organization/"[m + permalink + [31m"/competitors/"[m)
+[38;5;130m 42 [m    [38;5;130mreturn[m result
+[38;5;130m 43 
+ 44 def[m [36mgetCategoriesData[m(permalink):
+[38;5;130m 45 [m    result = __getJsonData2([31m"organization/"[m + permalink + [31m"/categories/"[m)
+[38;5;130m 46 [m    [38;5;130mreturn[m result
+[38;5;130m 47 
+ 48 def[m [36mgetAcquisitionsData[m(permalink):
+[38;5;130m 49 [m    result = __getJsonData2([31m"organization/"[m + permalink + [31m"/acquisitions/"[m)
+[38;5;130m 50 [m    [38;5;130mreturn[m result
+[38;5;130m 51 
+ 52 def[m [36mgetAcquisitionData[m(path):
+[38;5;130m 53 [m    result = __getJsonData2(path)
+[38;5;130m 54 [m    [38;5;130mreturn[m result
+[38;5;130m 55 
+ 56 def[m [36mgetInvestmentsData[m(permalink):
+[38;5;130m 57 [m    result = __getJsonData2([31m"organization/"[m + permalink + [31m"/investments/"[m)[1;5H[?12l[?25h[?25l[58;1H[K[58;1H:[?12l[?25hq[?25l[58;1H[K[58;1H[?1l>[?12l[?25h[?1049l[0;31mvictormoussalem[m [1;34m~/Documents/close_victor[m [0;31m$ [m[0;32m
