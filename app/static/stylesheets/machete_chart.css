@@ -1,0 +1,101 @@
+
+        .trans
+        {
+            transition: opacity 1.5s;
+            opacity: 0.0;
+        }
+
+        
+
+        .dc-chart g.row text
+        {
+            fill: black;
+            font-size: 12px;
+            -webkit-user-select: none; /* Chrome/Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+            /* Rules below not implemented in browsers yet */
+            -o-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .widget
+        {
+            background-color: #EEEEEE;
+            border: solid 1px #999999;
+            border-radius: 4px;
+            text-align: center;
+            position: relative;
+            padding: 10px;
+        }
+
+        .widgetTitle
+        {
+            color: #666666;
+            font-weight: bold;
+        }
+
+        .widgetMain
+        {
+            color: #666666;
+            font-size: 24pt;
+        }
+
+        .widgetSecondary
+        {
+            color: #999999;
+            font-size: 14pt;
+        }
+
+        .secondary
+        {
+            opacity: .6;
+        }
+
+        .selected
+        {
+            transition: fill .5s;
+            -webkit-transition: fill .5s;
+            fill: #DD2222;
+        }
+
+        .deselected
+        {
+            transition: fill .5s;
+            -webkit-transition: fill .5s;
+            fill: #ccc;
+        }
+
+        .reset
+        {
+            cursor: pointer;
+			background: rgba(156, 156, 156, 0.7);
+			color: white;
+			margin-right: 5px;
+			position: absolute;
+			right: -5px;
+			padding: 2px;
+        }
+
+        .chartTitle
+        {
+            color: #999999;
+            font-weight: bold;
+			margin-top: 3px;
+			margin-left: 5px;
+			white-space: nowrap;
+			
+        }
+
+        .row
+        {
+            margin: 0;
+        }
+
+        /*override dc.css*/
+        .dc-chart g.row rect
+        {
+            opacity: 0.6;
+        }
+    

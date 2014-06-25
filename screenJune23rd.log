@@ -56,4 +56,70 @@ Script started on Mon Jun 23 17:31:19 2014
 [38;5;130m 54 [m    [38;5;130mreturn[m result
 [38;5;130m 55 
  56 def[m [36mgetInvestmentsData[m(permalink):
-[38;5;130m 57 [m    result = __getJsonData2([31m"organization/"[m + permalink + [31m"/investments/"[m)[1;5H[?12l[?25h[?25l[58;1H[K[58;1H:[?12l[?25hq[?25l[58;1H[K[58;1H[?1l>[?12l[?25h[?1049l[0;31mvictormoussalem[m [1;34m~/Documents/close_victor[m [0;31m$ [m[0;32m
+[38;5;130m 57 [m    result = __getJsonData2([31m"organization/"[m + permalink + [31m"/investments/"[m)[1;5H[?12l[?25h[?25l[58;1H[K[58;1H:[?12l[?25hq[?25l[58;1H[K[58;1H[?1l>[?12l[?25h[?1049l[0;31mvictormoussalem[m [1;34m~/Documents/close_victor[m [0;31m$ [m[0;32mp[Kvi pipeline/import_crunchbase.py [Kpython run.py
+Traceback (most recent call last):
+  File "run.py", line 1, in <module>
+    from app import app, views, admin
+  File "/Users/victormoussalem/Documents/close_victor/app/__init__.py", line 8, in <module>
+    print os.environ['DATABASE_URL']
+  File "/Users/victormoussalem/.virtualenvs/close_victor/lib/python2.7/UserDict.py", line 23, in __getitem__
+    raise KeyError(key)
+KeyError: 'DATABASE_URL'
+[0;31mvictormoussalem[m [1;34m~/Documents/close_victor[m [0;31m$ [m[0;32mvi app/templates/indexDropbox.html 
+[?1049h[?1h=[1;58r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[58;1H"app/templates/indexDropbox.html" 163L, 7949C[>c[1;1H[38;5;130m  1 [m[34m<!DOCTYPE html>[m
+[38;5;130m  2 [m[36m<[m[38;5;130mhtml[m[36m>[m
+[38;5;130m  3 [m[36m<[m[38;5;130mhead[m[36m>[m
+[38;5;130m  4 [m[36m<[m[38;5;130mmeta[m[36m [m[32mcharset[m[36m=[m[31m'utf-8'[m[36m>[m
+[38;5;130m  5 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='javascripts/jquery-1.9.1.min.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m  6 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='javascripts/d3.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m  7 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='javascripts/crossfilter.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m  8 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='javascripts/dc.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m  9 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='javascripts/bootstrap.min.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m 10 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='javascripts/colorbrewer.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m 11 
+ 12 [m[36m<[m[38;5;130mlink[m[36m [m[32mhref[m[36m=[m[31m"{{ url_for('static', filename='stylesheets/dc.css') }}"[m[36m [m[32mrel[m[36m=[m[31m'stylesheet'[m[36m [m[32mtype[m[36m=[m[31m'text/css'[m[36m>[m
+[38;5;130m 13 [m[36m<[m[38;5;130mlink[m[36m [m[32mhref[m[36m=[m[31m"{{ url_for('static', filename='stylesheets/spacelab.css') }}"[m[36m [m[32mrel[m[36m=[m[31m'stylesheet'[m[36m [m[32mtype[m[36m=[m[31m'text/css'[m[36m>[m
+[38;5;130m 14 [m[36m<[m[38;5;130mlink[m[36m [m[32mhref[m[36m=[m[31m"{{ url_for('static', filename='stylesheets/dashboard.css') }}"[m[36m [m[32mrel[m[36m=[m[31m'stylesheet'[m[36m [m[32mtype[m[36m=[m[31m'text/css'[m[36m>[m
+[38;5;130m 15 [m[36m<[m[38;5;130mlink[m[36m [m[32mhref[m[36m=[m[31m"http://fonts.googleapis.com/css?family=Ubuntu:400,500,700"[m[36m [m[32mmedia[m[36m=[m[31m"all"[m[36m [m[32mrel[m[36m=[m[31m"stylesheet"[m[36m />[m
+[38;5;130m 16 [m[36m<[m[38;5;130mscript[m[36m [m[32mtype[m[36m=[m[31m"text/javascript"[m[36m [m[32msrc[m[36m=[m[31m"{{ url_for('static', filename='visualizations.js') }}"[m[36m></[m[38;5;130mscript[m[36m>[m
+[38;5;130m 17 
+ 18 [m[36m</[m[38;5;130mhead[m[36m>[m
+[38;5;130m 19 [m    [36m<[m[38;5;130mbody[m[36m>[m
+[38;5;130m 20 [m[7C [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"navbar navbar-inverse navbar-fixed-top"[m[36m role=[m[31m"navigation"[m[36m>[m
+[38;5;130m 21 [m      [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"container-fluid"[m[36m>[m
+[38;5;130m 22 [m[7C [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"navbar-header"[m[36m>[m
+[38;5;130m 23 [m[9C [36m<[m[38;5;130mbutton[m[36m [m[32mtype[m[36m=[m[31m"button"[m[36m [m[32mclass[m[36m=[m[31m"navbar-toggle"[m[36m [m[32mdata[m[36m-toggle=[m[31m"collapse"[m[36m [m[32mdata[m[36m-[m[32mtarget[m[36m=[m[31m".navbar-collapse"[m[36m>[m
+[38;5;130m 24 [m[11C [36m<[m[38;5;130mspan[m[36m [m[32mclass[m[36m=[m[31m"sr-only"[m[36m>[mToggle navigation[36m</[m[38;5;130mspan[m[36m>[m
+[38;5;130m 25 [m[11C [36m<[m[38;5;130mspan[m[36m [m[32mclass[m[36m=[m[31m"icon-bar"[m[36m></[m[38;5;130mspan[m[36m>[m
+[38;5;130m 26 [m[11C [36m<[m[38;5;130mspan[m[36m [m[32mclass[m[36m=[m[31m"icon-bar"[m[36m></[m[38;5;130mspan[m[36m>[m
+[38;5;130m 27 [m[11C [36m<[m[38;5;130mspan[m[36m [m[32mclass[m[36m=[m[31m"icon-bar"[m[36m></[m[38;5;130mspan[m[36m>[m
+[38;5;130m 28 [m[9C [36m</[m[38;5;130mbutton[m[36m>[m
+[38;5;130m 29 [m[9C [36m<[m[38;5;130ma[m[36m [m[32mclass[m[36m=[m[31m"navbar-brand"[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mClose dashboard[m[36m</[m[38;5;130ma[m[36m><[m[38;5;130ma[m[36m [m[32mclass[m[36m=[m[31m"navbar-brand"[m[36m>[m[7C Visualization of Company Acquisitions[36m</[m[38;5;130ma[m[36m>[m
+[38;5;130m 30 [m[7C [36m</[m[38;5;130mdiv[m[36m>[m
+[38;5;130m 31 [m[7C [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"navbar-collapse collapse"[m[36m>[m
+[38;5;130m 32 [m[9C [36m<[m[38;5;130mul[m[36m [m[32mclass[m[36m=[m[31m"nav navbar-nav navbar-right"[m[36m>[m
+[38;5;130m 33 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mDashboard[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 34 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mSettings[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 35 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mProfile[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 36 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mLog out[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 37 [m[9C [36m</[m[38;5;130mul[m[36m>[m
+[38;5;130m 38 [m[9C [36m<[m[38;5;130mform[m[36m [m[32mclass[m[36m=[m[31m"navbar-form navbar-right"[m[36m>[m
+[38;5;130m 39 [m[11C [36m<[m[38;5;130minput[m[36m [m[32mtype[m[36m=[m[31m"text"[m[36m [m[32mclass[m[36m=[m[31m"form-control"[m[36m placeholder=[m[31m"Search..."[m[36m>[m
+[38;5;130m 40 [m[9C [36m</[m[38;5;130mform[m[36m>[m
+[38;5;130m 41 [m[7C [36m</[m[38;5;130mdiv[m[36m>[m
+[38;5;130m 42 [m      [36m</[m[38;5;130mdiv[m[36m>[m
+[38;5;130m 43 [m    [36m</[m[38;5;130mdiv[m[36m>[m
+[38;5;130m 44 
+ 45 [m    [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"container-fluid"[m[36m>[m
+[38;5;130m 46 [m      [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"row"[m[36m>[m
+[38;5;130m 47 [m[7C [36m<[m[38;5;130mdiv[m[36m [m[32mclass[m[36m=[m[31m"col-sm-3 col-md-2 sidebar"[m[36m>[m
+[38;5;130m 48 [m[9C [36m<[m[38;5;130mul[m[36m [m[32mclass[m[36m=[m[31m"nav nav-sidebar"[m[36m>[m
+[38;5;130m 49 [m[11C [36m<[m[38;5;130mli[m[36m [m[32mclass[m[36m=[m[31m"active"[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mOverview[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 50 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mReports[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 51 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mAnalytics[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 52 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m"#"[m[36m>[m[4m[35mExport[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 53 [m[9C [36m</[m[38;5;130mul[m[36m>[m
+[38;5;130m 54 [m[9C [36m<[m[38;5;130mul[m[36m [m[32mclass[m[36m=[m[31m"nav nav-sidebar"[m[36m>[m
+[38;5;130m 55 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m""[m[36m>[m[4m[35mDropbox portfolio[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 56 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m""[m[36m>[m[4m[35mFacebook portfolio[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[m
+[38;5;130m 57 [m[11C [36m<[m[38;5;130mli[m[36m><[m[38;5;130ma[m[36m [m[32mhref[m[36m=[m[31m""[m[36m>[m[4m[35mTwitter portfolio[m[36m</[m[38;5;130ma[m[36m></[m[38;5;130mli[m[36m>[1;5H[?12l[?25h[2;5H[3;5H[4;5H[3;5H[4;5H[11;5H

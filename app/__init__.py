@@ -5,8 +5,6 @@ import os
 app = Flask(__name__)
 db = SQLAlchemy(app)
 
-print os.environ['DATABASE_URL']
-
 app.secret_key = 'a2isj913ndf9*10f0f[if9]9un!nn%n'
 
 HEROKU = 'HEROKU' in os.environ

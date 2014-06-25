@@ -1,0 +1,1829 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>
+        Funding Rounds - Data Visualization
+    </title>
+    <link rel="shortcut icon" href="/content/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/content/images/favicon.ico" type="image/x-icon">
+    
+    <link href="/static/stylesheets/bootstrap.css" rel="stylesheet" />
+    <link href="/static/stylesheets/theme.css" rel="stylesheet" />
+
+    <link href="/static/stylesheets/bootstrapSwitch.css" rel="stylesheet" />
+    <link href="/static/stylesheets/dc.css" rel="stylesheet" />
+    <link href="/static/stylesheets/machete_chart.css" rel="stylesheet" />
+    <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    
+    <link href="/static/stylesheets/site.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700' rel='stylesheet' type='text/css'>
+
+    <script src="/static/javascripts/modernizr?v=rGcoDow97GYrNMSwHq7xCCjlcB3UIY4_OhPRc6BBSQA1"></script>
+
+
+    
+            
+
+
+
+</head>
+<body>
+
+
+    <div class="container">
+        <nav class="navbar navbar-default " role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <!-- /.navbar-collapse -->
+        </nav>
+        
+
+<style>
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .chartHighlight {
+        -webkit-box-shadow: inset 0 0 10px 1px #E64444;
+        box-shadow: inset 0 0 10px 1px #E64444;
+        
+        -webkit-transition-timing-function: ease;
+        -moz-transition-timing-function: ease;
+        -o-transition-timing-function: ease;
+        transition-timing-function: ease;
+        
+        -webkit-transition: 500ms;
+        -moz-transition: 500ms;
+        -o-transition: 500ms;
+        transition: 500ms;
+    }
+
+    select.hoverHiglightChart:hover {
+        -webkit-box-shadow: inset 0 0 10px 1px #E64444;
+        box-shadow: inset 0 0 10px 1px #E64444;
+
+        -webkit-transition-timing-function: ease;
+        -moz-transition-timing-function: ease;
+        -o-transition-timing-function: ease;
+        transition-timing-function: ease;
+
+        -webkit-transition: 500ms;
+        -moz-transition: 500ms;
+        -o-transition: 500ms;
+        transition: 500ms;
+    }
+
+    
+
+    .trans {
+        transition: opacity 1.5s;
+        opacity: 0.0;
+    }
+
+    .loadingDiv {
+        position: absolute;
+        top: 60px;
+        z-index: 100;
+        //height: 1500px;
+        //width: 1500px;
+        height: 1200px;
+        width: 100%;
+        background-color: white;
+    }
+</style>
+<style>
+
+
+        
+        .inactive_chart {
+            border-color: #DDD;
+        }
+        #board {
+            background-color: white;
+        }
+        
+</style>
+
+<div class="col-md-12">
+        <div class="row" style="margin-bottom: 8px">
+            <div class="col-md-6">
+                <span data-bind="text: ProjectName" style="font-size: 30px;"></span>
+                <a href="#" data-toggle="modal" data-target="#infoModal" style="font-size: 20px" class="text-muted">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-text="Awesome Visualization - Seed DB Funding Rounds" data-via="machete_io" data-size="large">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </div>
+            <div class="col-md-4">
+                <a href="/beta" class="btn btn-warning pull-right" target="_blank">Create your own visualization</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" style="margin-bottom: 5px;">
+                <!-- ko with:MeasureGroups()[0] -->
+                <label for=" title" class="">Primary</label>
+                <select class="input-sm hoverHiglightChart" data-bind="options: available, value: active, event: { mouseover: $root.primaryOver, mouseout: $root.primaryOut }"></select>
+                <!-- /ko -->
+
+                
+                    <!-- ko with:MeasureGroups()[1] -->
+                <span data-bind="visible: available().length > 0 ">
+                    <label for="title" class="" style="margin-left: 15px;">Secondary</label>
+                    <select class="input-sm hoverHiglightChart" data-bind="options: available, value: active, event: { mouseover: $root.secondaryOver, mouseout: $root.secondaryOut }"></select>
+
+                </span>
+                    <!-- /ko -->
+
+                
+                
+    
+            </div>
+            
+        </div>
+        <div class="modal fade" id="infoModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" data-bind="text: ProjectName"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sources: <a href="http://www.seed-db.com/">Seed DB</a>, <a href="http://info.crunchbase.com/about/crunchbase-data-exports/">CrunchBase</a> - Licensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">[CC-BY-NC]</a></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    
+    <div class="row col-md-12" style="padding-left: 0; padding-right: 0;">
+        <script type="text/html" id="RowChart_DisplayTemplate">
+            <div class="ui-widget-content ui-resizable  inactive_chart"
+                 data-bind="attr: { id: id }, click: $root.makeActive, clickBubble: false, css: { active_chart: active(), chartHighlight: highlight() }, style: { left: x() + 'px', top: y() + 'px', width: width() + 'px', height: height() + 'px' }, movable: $data"
+                 style="position: absolute;">
+
+                <span class="chartTitle" data-bind="text: title() === '' ? niceTitle(measureName(), dimensionName()): title()"></span>
+                <a class="reset small" href="#" style="display: none;"><span class="glyphicon glyphicon-remove" style="color: white;"></span></a>
+
+                <div class="clearfix"></div>
+            </div>
+        </script>
+
+        <script type="text/html" id="LineChart_DisplayTemplate">
+            <div class="ui-widget-content ui-resizable inactive_chart"
+                 data-bind="attr: { id: id }, click: $root.makeActive, clickBubble: false, css: { active_chart: active(), chartHighlight: highlight() }, style: { left: x() + 'px', top: y() + 'px', width: width() + 'px', height: height() + 'px' }, movable: $data"
+                 style="position: absolute;">
+
+                <span class="chartTitle" data-bind="text: title() === '' ? niceTitle(measureName(), dimensionName()): title()"></span>
+                <a class="reset small" href="#" style="display: none;"><span class="glyphicon glyphicon-remove" style="color: white;"></span></a>
+
+                <div class="clearfix"></div>
+
+                <div class="lineChart"></div>
+                <div class="barChart"></div>
+            </div>
+        </script>
+
+        <script type="text/html" id="NumberChart_DisplayTemplate">
+            <div class="ui-widget-content ui-resizable widget inactive_chart"
+                 data-bind="attr: { id: id }, click: $root.makeActive, clickBubble: false, css: { active_chart: active(), chartHighlight: highlight() }, style: { left: x() + 'px', top: y() + 'px', width: width() + 'px', height: height() + 'px' }, movable: $data"
+                 style="position: absolute;">
+
+                <span class="chartTitle" data-bind="text: title() === '' ? niceTitle(bigMeasureName()): title()"></span>
+
+                <div class="widgetMain" style="padding-top: 10px;">
+                    <span class="big-display"></span>
+                </div>
+                <div class="widgetSecondary" style="padding-top: 6px;">
+                    <span class="little-display"></span>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/html" id="BubbleChart_DisplayTemplate">
+            <div class="ui-widget-content ui-resizable  inactive_chart"
+                 data-bind="attr: { id: id }, click: $root.makeActive, clickBubble: false, css: { active_chart: active(), chartHighlight: highlight() }, style: { left: x() + 'px', top: y() + 'px', width: width() + 'px', height: height() + 'px' }, movable: $data"
+                 style="position: absolute;">
+
+                <span class="chartTitle" data-bind="text: defaultTitle"></span>
+                <a class="reset small" href="#" style="display: none;"><span class="glyphicon glyphicon-remove" style="color: white;"></span></a>
+
+                <div class="clearfix"></div>
+            </div>
+        </script>
+
+        <script type="text/html" id="ChoroplethChart_DisplayTemplate">
+            <div class="ui-widget-content ui-resizable  inactive_chart"
+                 data-bind="attr: { id: id }, click: $root.makeActive, clickBubble: false, css: { active_chart: active(), chartHighlight: highlight() }, style: { left: x() + 'px', top: y() + 'px', width: width() + 'px', height: height() + 'px' }, movable: $data"
+                 style="position: absolute;">
+
+                <span class="chartTitle" data-bind="text: title() === '' ? niceTitle(measureName(), dimensionName()): title()"></span>
+                <a class="reset small" href="#" style="display: none;"><span class="glyphicon glyphicon-remove" style="color: white;"></span></a>
+
+                <div class="clearfix"></div>
+            </div>
+        </script>
+
+
+        <div id="board" data-bind="foreach: Charts, click: deactivateAll" style="height: 900px; ">
+            <div data-bind="template: { name: type() + '_DisplayTemplate', data: $data }">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <style>
+        #newsletter-hover {
+            position: fixed;
+            bottom: 0;
+            right: 20px;
+            background-color: rgba(40, 40, 40, .8);
+            padding: 10px;
+            height: 40px;
+            width: 280px;
+        }
+    </style>
+
+
+    </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type='text/javascript' src='/static/javascripts/bootstrap.min.js'></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript" src="/static/javascripts/d3.js"></script>
+        <script type="text/javascript" src="/static/javascripts/crossfilter.js"></script>
+        <script type="text/javascript" src="/static/javascripts/dc.js"></script>
+        <script type="text/javascript" src="/static/javascripts/stonefinch.dc.2.0.js"></script>
+        <script type="text/javascript" src="/static/javascripts/stonefinch.bubble.dc.js"></script>
+        <script type="text/javascript" src="/static/javascripts/machete.util.js"></script>
+        <script type="text/javascript" src="/static/javascripts/bootstrapSwitch.js"></script>
+        <script type="text/javascript" src="/static/javascripts/knockout-2.2.1.js"></script>
+        <script type="text/javascript" src="/static/javascripts/knockout.mapping-latest.js"></script>
+        <script type="text/javascript" src="/static/javascripts/knockout.machete.js"></script>
+    
+    
+    <div id="loadingDiv" class="loadingDiv">
+        <div class="row">
+            <div style="margin-top: 100px; " class="center-block">
+                <br />
+                <div class="text-center" style="color: #999999; font-size: 30pt; width:100%">Retrieving Data...</div><br />
+                <br />
+                <div class="progress center-block" style="width: 50%">
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar" role="progressbar" id="csvLoadedBar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0;"><span class="sr-only"></span></div>
+                    </div>
+
+                </div>
+                <br />
+                <div class="text-center" style="color: #999999; font-size: 14pt; width: 100%">best if viewed in chrome</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- defaults, queuing -->
+    <script type="text/javascript">
+
+        rowChartBarColors = ["#3182BD"]; //3182BD
+
+        ndx = undefined;
+        all = undefined;
+        duration = undefined;
+        data = undefined;
+
+        stateJson = undefined;
+        worldJson = undefined;
+
+        dateFormat = d3.time.format("%m/%d/%Y");;
+        numberFormat = undefined;
+
+        oneGroupDimension = undefined;
+
+        var rowChartWidth = 220;
+        var rowChartHeight = 700;
+        var rowChartHeightPer = 180 / 5;
+        var rowChartMargin = { top: 0, left: 35, right: 5, bottom: 20 };
+
+        var method_queue = [];
+
+        function enqueue(fn, priority) {
+            if (priority === undefined)
+                priority = 100;
+            method_queue.push({ method: fn, priority: priority });
+        }
+
+        function sort_queue(a, b) {
+            if (a.priority < b.priority) return -1;
+            else if (a.priority == b.priority) return 0;
+            else return 1;
+        }
+
+        function execute_queue() {
+            method_queue.sort(sort_queue);
+
+            for (var i in method_queue) method_queue[i].method();
+        }
+
+    </script>
+
+    <!-- knockout DnD -->
+    <script type="text/javascript">
+        //from: http://www.knockmeout.net/2011/08/simplifying-and-cleaning-up-views-in.html
+        ko.safeObservable = function (initialValue) {
+            var result = ko.observable(initialValue);
+            result.safe = ko.dependentObservable(function () {
+                return result() || {};
+            });
+
+            return result;
+        };
+
+            
+        var allowMove = false;
+        
+
+        ko.bindingHandlers.movable = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                if (allowMove === false)
+                    return;
+
+                var obj = valueAccessor();
+                var $elem = $(element);
+
+                element.dataObj = obj;
+
+                var totalBorderSize = 2;
+
+                $elem.resizable({
+                    grid: 20,
+                    autoHide: true,
+                    containment: "#board",
+                    resize: function (event, ui) {
+                        this.dataObj.height(ui.size.height + totalBorderSize);
+                        this.dataObj.width(ui.size.width + totalBorderSize);
+                    },
+                    stop: function (event, ui) {
+                        this.dataObj.height(ui.size.height + totalBorderSize);
+                        this.dataObj.width(ui.size.width + totalBorderSize);
+                    }
+                });
+
+                $elem.draggable({
+                    grid: [20, 20],
+                    containment: "#board",
+                    drag: function (event, ui) {
+                        this.dataObj.x(ui.position.left);
+                        this.dataObj.y(ui.position.top);
+                    },
+                    stop: function (event, ui) {
+                        this.dataObj.x(ui.position.left);
+                        this.dataObj.y(ui.position.top);
+                    }
+                });
+            }
+        }
+    </script>
+
+    <!-- models -->
+    <script type="text/javascript">
+        var RowChartInfo = function () {
+            var self = this;
+
+            self.highlight = false;
+            self.type = "RowChart";
+
+            self.id = "";
+
+            self.x = 0;
+            self.y = 0;
+
+            self.height = 200;
+            self.titleHeight = 20;
+            self.width = 300;
+            self.title = "";
+            self.margin = { top: 0, left: 50, right: 5, bottom: 20 };
+
+            self.measureName = "";
+            self.measureFields = ["measureName"];
+
+            self.dimensionName = "";
+            self.active = false;
+
+            //unique to this chart type
+            self.maxDisplayCount = 10;
+            self.elasticX = true;
+            self.tickCount = 4;
+            self.renderValue = true;
+            self.humanizeValueLabel = true;
+            self.maxDisplayCount = 10;
+
+
+        }
+
+        var LineChartInfo = function () {
+            var self = this;
+
+            self.highlight = false;
+            self.type = "LineChart";
+
+            self.id = "";
+
+            self.x = 0;
+            self.y = 0;
+
+            self.height = 300;
+            self.titleHeight = 20;
+            self.width = 800;
+            self.title = "";
+            self.margin = { top: 10, right: 0, bottom: 35, left: 40 };
+
+            self.measureName = "";
+            self.measureFields = ["measureName"];
+
+            self.dimensionName = "";
+            self.active = false;
+
+            self.barHeight = 100;
+
+
+            //unique to this chart type
+            self.elasticY = true;
+
+
+        }
+
+        var NumberChartInfo = function () {
+            var self = this;
+
+            self.highlight = false;
+            self.type = "NumberChart";
+
+            self.id = "";
+
+            self.x = 0;
+            self.y = 0;
+
+            self.height = 160;
+            self.titleHeight = 20;
+            self.width = 160;
+            self.title = "";
+            self.active = false;
+
+            self.bigMeasureName = "";
+            self.smallMeasureName = "";
+            self.measureFields = ["bigMeasureName", "smallMeasureName"];
+        }
+
+        var BubbleChartInfo = function () {
+            var self = this;
+
+            self.highlight = false;
+            self.type = "BubbleChart";
+
+            self.id = "";
+
+            self.x = 0;
+            self.y = 0;
+
+            self.height = 200;
+            self.titleHeight = 20;
+            self.width = 500;
+            self.title = "";
+            self.margin = { top: 0, left: 50, right: 5, bottom: 20 };
+
+            self.measureName = "";
+            self.measureKeyName = "";
+            self.measureRadiusName = "";
+            self.measureFields = ["measureName", "measureKeyName", "measureRadiusName"];
+
+            self.dimensionName = "";
+            self.active = false;
+
+            //unique to this chart type
+            self.maxDisplayCount = 300;
+            self.elasticX = true;
+            self.tickCount = 4;
+            self.renderValue = true;
+            self.humanizeValueLabel = true;
+
+        }
+
+        var ChoroplethChartInfo = function () {
+            var self = this;
+
+            self.highlight = false;
+            self.type = "ChoroplethChart";
+
+            self.id = "";
+
+            self.x = 0;
+            self.y = 0;
+
+            self.height = 200;
+            self.titleHeight = 20;
+            self.width = 300;
+            self.title = "";
+            self.margin = { top: 0, left: 0, right: 0, bottom: 0 };
+
+            self.measureName = "";
+            self.measureFields = ["measureName"];
+
+            self.dimensionName = "";
+            self.active = false;
+
+            //unique to this chart type
+            self.colorScheme = "";
+
+        }
+
+
+        var ColumnInfo = function () {
+            var self = this;
+            self.name = "";
+            self.type = "";
+            self.ex1 = "";
+            self.ex2 = "";
+        }
+
+        var MeasureGroup = function (name) {
+            var self = this;
+            if (name)
+                self.name = name;
+            else
+                self.name = "";
+            self.color = "";
+            self.active = "";
+            self.available = [];
+        }
+
+
+        var ReportInfo = function () {
+            var self = this;
+
+            self.IsSaving = false;
+
+            self.ActiveChart = ''; //placeholder
+
+            self.Charts = [];
+            self.Measures = [];
+            self.Dimensions = [];
+            self.DateDimensions = [];
+
+            self.MeasureGroups = [];
+
+            self.RawData = "";
+
+            self.Columns = [];
+
+            self.ActiveTab = "visualize";
+
+        }
+
+        var numberDetail = function (big, little, bigName, littleName) {
+            this.big = big;
+            this.little = little;
+            this.bigName = bigName;
+            this.littleName = littleName;
+        }
+    </script>
+
+    <!-- utils -->
+    <script type="text/javascript">
+        function niceTitle(measure, dimension) {
+            if (measure === "<Primary>") {
+                measure = viewModel.MeasureGroups()[0].active();
+            } else if (measure === "<Secondary>") {
+                measure = viewModel.MeasureGroups()[1].active();
+            }
+
+            var measureDerivs = /([\s\w]+)__(avg|total|count)/.exec(measure);
+
+            var newMeasure= measureDerivs[2] + " " + toTitleCase(measureDerivs[1].replace("_", " "));
+            if (dimension !== undefined)
+                return toTitleCase(newMeasure) + " - " + toTitleCase(dimension);
+            else
+                return toTitleCase(newMeasure);
+        }
+
+        function toTitleCase(str){
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
+    </script>
+
+    <script type="text/javascript">
+
+
+        var viewModel;
+
+        
+        var defaultColors = ["#3182BD"];
+
+        globalChartCount = 0;
+        $(function () {
+
+
+            viewModel = ko.mapping.fromJS(new ReportInfo());
+
+            var rawModel = {"ProjectId":"157a518b-cbf2-4bde-84b4-98cfa0bc15ba","RawData":null,"DataUrl":"https://machete.blob.core.windows.net/data/af30eda5-aca0-4101-96f5-3caeb55627b5/04dfdf95-3fb6-48e0-8b71-dc93e9a4d8f6.csv?sv=2013-08-15&sr=b&sig=0QHfpKyC8IlS8X4dkF3U517gCUH63tPpDpv4q3MAB54%3D&se=2014-06-25T19%3A35%3A13Z&sp=r","Schema":[{"name":"Company","type":"dimension","ex1":"1000memories","ex2":"121cast"},{"name":"Market","type":"dimension","ex1":"Curated Web","ex2":"Audio"},{"name":"Country","type":"dimension","ex1":"USA","ex2":"AUS"},{"name":"State","type":"dimension","ex1":"CA","ex2":"RI"},{"name":"Region","type":"dimension","ex1":"SF Bay Area","ex2":"Melbourne"},{"name":"City","type":"dimension","ex1":"San Francisco","ex2":"Melbourne"},{"name":"Type","type":"dimension","ex1":"Seed","ex2":"Venture"},{"name":"Series","type":"dimension","ex1":"A","ex2":"B"},{"name":"FundMonth","type":"dateDimension","ex1":"1/1/2010","ex2":"2/1/2011"},{"name":"Raised","type":"measure","ex1":"15000","ex2":"2520000"},{"name":"Status","type":"dimension","ex1":"Exited","ex2":"Operating"},{"name":"Accelerator","type":"dimension","ex1":"Y Combinator","ex2":"Melbourne Accelerator Program"},{"name":"Freakish_Outlier","type":"dimension","ex1":"No","ex2":"Yes"}],"Board":{"Charts":[{"highlight":false,"type":"LineChart","id":"dcChart_0","x":580,"y":360,"height":200,"titleHeight":20,"width":560,"title":"","margin":{"top":10,"right":0,"bottom":35,"left":40},"measureName":"Raised__total","measureFields":["measureName"],"dimensionName":"FundMonth","active":false,"barHeight":"70","elasticY":true},{"highlight":false,"type":"RowChart","id":"dcChart_1","x":0,"y":0,"height":120,"titleHeight":20,"width":280,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Freakish_Outlier","active":false,"maxDisplayCount":10,"elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"RowChart","id":"dcChart_2","x":0,"y":120,"height":300,"titleHeight":20,"width":280,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Company","active":false,"maxDisplayCount":10,"elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"BubbleChart","id":"dcChart_3","x":580,"y":0,"height":360,"titleHeight":20,"width":560,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"Raised__total","measureKeyName":"Raised__avg","measureRadiusName":"Raised__total","measureFields":["measureName","measureKeyName","measureRadiusName"],"dimensionName":"Company","active":true,"maxDisplayCount":300,"elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true,"defaultTitle":"X-Avg Raised, Y-Total Raised, R-Total Raised - Company"},{"highlight":false,"type":"RowChart","id":"dcChart_4","x":280,"y":120,"height":300,"titleHeight":20,"width":300,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Market","active":false,"maxDisplayCount":"15","elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"RowChart","id":"dcChart_5","x":580,"y":560,"height":180,"titleHeight":20,"width":280,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Type","active":false,"maxDisplayCount":10,"elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"RowChart","id":"dcChart_6","x":860,"y":560,"height":180,"titleHeight":20,"width":280,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Series","active":false,"maxDisplayCount":"15","elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"RowChart","id":"dcChart_7","x":280,"y":560,"height":180,"titleHeight":20,"width":300,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Region","active":false,"maxDisplayCount":10,"elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"RowChart","id":"dcChart_8","x":280,"y":0,"height":120,"titleHeight":20,"width":300,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Status","active":false,"maxDisplayCount":10,"elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"RowChart","id":"dcChart_9","x":0,"y":420,"height":320,"titleHeight":20,"width":280,"title":"","margin":{"top":0,"left":50,"right":5,"bottom":20},"measureName":"<Primary>","measureFields":["measureName"],"dimensionName":"Accelerator","active":false,"maxDisplayCount":"15","elasticX":true,"tickCount":4,"renderValue":true,"humanizeValueLabel":true},{"highlight":false,"type":"NumberChart","id":"dcChart_10","x":300,"y":420,"height":140,"titleHeight":20,"width":120,"title":"","active":false,"bigMeasureName":"Raised__total","smallMeasureName":"Raised__avg","measureFields":["bigMeasureName","smallMeasureName"]},{"highlight":false,"type":"NumberChart","id":"dcChart_11","x":440,"y":420,"height":140,"titleHeight":20,"width":120,"title":"# Rounds","active":false,"bigMeasureName":"Raised__count","smallMeasureName":"Raised__count","measureFields":["bigMeasureName","smallMeasureName"]}],"MeasureGroups":[{"name":"Primary","color":"","active":"Raised__total","available":["Raised__total","Raised__count","Raised__avg"]},{"name":"Secondary","color":"","active":"Raised__avg","available":[]}]},"ProjectName":"Seed DB Funding Rounds","Description":"Sources: <a href=\"http://www.seed-db.com/\">Seed DB</a>, <a href=\"http://info.crunchbase.com/about/crunchbase-data-exports/\">CrunchBase</a> - Licensed under <a href=\"http://creativecommons.org/licenses/by-nc/4.0/\">[CC-BY-NC]</a>"};
+            //viewModel = ko.mapping.fromJS(raw);
+            var projectId = "157a518b-cbf2-4bde-84b4-98cfa0bc15ba";
+
+            viewModel.ProjectName = ko.observable("Seed DB Funding Rounds");
+            viewModel.Columns = ko.mapping.fromJS(rawModel.Schema);
+
+            viewModel.visualize = function () {
+                var dateDims = viewModel.Columns().filter(function (d) { return d.type() === "dateDimension" }).map(function (d) { return d.name() });;
+
+                for (var dd = 0; dd < dateDims.length; dd++) {
+                    var newcol = new ColumnInfo();
+                    newcol.name = dateDims[dd] + "__day";
+                    newcol.type = "dimension";
+                    viewModel.Columns.push(ko.mapping.fromJS(newcol));
+
+                    newcol = new ColumnInfo();
+                    newcol.name = dateDims[dd] + "__month";
+                    newcol.type = "dimension";
+                    viewModel.Columns.push(ko.mapping.fromJS(newcol));
+                }
+
+                var cols = viewModel.Columns();
+
+                var measures = cols.filter(function (d) { return d.type() === "measure" }).map(function (d) { return d.name() });;
+
+
+                var measuresLength = measures.length;
+                var dateDimsLength = dateDims.length;
+
+                viewModel.aggAdd = function (p, v) {
+                    for (var i = 0; i < measuresLength; i++) {
+                        if (isNaN(v[measures[i]]))
+                            continue;
+                        p[measures[i] + "__total"] += v[measures[i]];
+                        p[measures[i] + "__count"] += 1;
+                        //if (p[measures[i] + "__count"] === 0)
+                        //    p[measures[i] + "__avg"] = 0;
+                        //else
+                        p[measures[i] + "__avg"] = p[measures[i] + "__total"] / p[measures[i] + "__count"];
+                    }
+                    return p;
+                }
+
+                viewModel.aggRemove = function (p, v) {
+                    for (var i = 0; i < measuresLength; i++) {
+                        if (isNaN(v[measures[i]]))
+                            continue;
+                        p[measures[i] + "__total"] -= v[measures[i]];
+                        p[measures[i] + "__count"] -= 1;
+
+                        //if (p[measures[i] + "__count"] === 0)
+                        //    p[measures[i] + "__avg"] = 0;
+                        //else
+                        p[measures[i] + "__avg"] = p[measures[i] + "__total"] / p[measures[i] + "__count"];
+                    }
+
+                    return p;
+                }
+
+                viewModel.aggInit = function () {
+                    var item = {};
+                    for (var i = 0; i < measuresLength; i++) {
+                        item[measures[i] + "__total"] = 0;
+                        item[measures[i] + "__count"] = 0;
+                        item[measures[i] + "__avg"] = 0;
+                    }
+                    return item;
+                }
+
+                viewModel.Measures.push("<Primary>")
+                viewModel.Measures.push("<Secondary>")
+
+                for (var i = 0; i < measuresLength; i++) {
+                    viewModel.Measures.push(measures[i] + "__total");
+                    viewModel.Measures.push(measures[i] + "__count");
+                    viewModel.Measures.push(measures[i] + "__avg");
+                }
+
+                var dimensions = cols.filter(function (d) { return d.type() === "dimension" }).map(function (d) { return d.name() });;
+
+                for (var i = 0; i < dimensions.length; i++) {
+                    viewModel.Dimensions.push(dimensions[i]);
+                }
+
+                var dateDimensions = cols.filter(function (d) { return d.type() == "dateDimension" }).map(function (d) { return d.name() });;
+
+                for (var i = 0; i < dateDimensions.length; i++) {
+                    viewModel.DateDimensions.push(dateDimensions[i]);
+                }
+
+                var data = viewModel.Data;
+
+                var dayFormat = d3.time.format("%A");
+                var monthFormat = d3.time.format("%B");
+
+                /* parse ze data, frank */
+                for (var i = 0; i < data.length; i++) {
+
+                    for (var m = 0; m < measuresLength; m++) {
+                        data[i][measures[m]] = getNumber(data[i][measures[m]] );
+                    }
+
+                    for (var dd = 0; dd < dateDimsLength; dd++) {
+                        var theDate = dateFormat.parse(data[i][dateDims[dd]]);
+                        data[i][dateDims[dd]] = theDate;
+
+                        if (theDate === null || theDate === NaN || theDate === undefined) {
+                            data[i][dateDims[dd] + "__day"] = null;
+                            data[i][dateDims[dd] + "__month"] = null;
+                        } else {
+                            data[i][dateDims[dd] + "__day"] = dayFormat(theDate);
+                            data[i][dateDims[dd] + "__month"] = monthFormat(theDate);
+                        }
+                    }
+                }
+
+                ndx = crossfilter(viewModel.Data);
+                all = ndx.groupAll();
+
+                duration = 1500;
+
+                oneGroupDimension = ndx.dimension(function (d) {
+                    //we want everything to be grouped together, regardless of what the val is
+                    return 1;
+                });
+
+                dc.renderAll();
+
+                viewModel.ActiveTab("visualize");
+
+            };
+
+            viewModel.deactivateAll = function () {
+                viewModel.ActiveChart(null);
+                var charts = viewModel.Charts();
+                for (var i = 0; i < charts.length; i++) {
+                    charts[i].active(false);
+                }
+            }
+
+            function measureGroupOver(measureGroupName) {
+                var charts =viewModel.Charts();
+                for(i = 0; i< charts.length; i++){
+                    var measureFields = charts[i].measureFields();
+                    for (var j = 0; j < measureFields.length; j++) {
+                        var fieldName = measureFields[j];
+                        if (charts[i][fieldName]() === measureGroupName) {
+                            charts[i].highlight(true);
+                        }
+                    }
+                }
+            }
+
+            function measureGroupOut(measureGroupName) {
+                var charts =viewModel.Charts();
+                for(i = 0; i< charts.length; i++){
+                    charts[i].highlight(false);
+                }
+            }
+
+            viewModel.primaryOver = function() {
+                measureGroupOver("<Primary>");
+            };
+            viewModel.primaryOut = function() {
+                measureGroupOut("<Primary>")
+            };
+
+            viewModel.secondaryOver = function() {
+                measureGroupOver("<Secondary>");
+            };
+            viewModel.secondaryOut = function() {
+                measureGroupOut("<Secondary>")
+            };
+
+            viewModel.makeActive = function (clickedItem) {
+                viewModel.ActiveChart(clickedItem);
+                var charts = viewModel.Charts();
+                for (var i = 0; i < charts.length; i++) {
+                    charts[i].active(false);
+                }
+                clickedItem.active(true);
+            };
+
+            var ignoreProps = function (key, value) {
+                //if (key === "Rows")
+                //    return;
+
+                if (key.startsWith("__"))
+                    return;
+
+                if (key === "barChart" || key === "dcChart" || key === "lineChart")
+                    return;
+
+                return value;
+            }
+
+            viewModel.saveBoard = function () {
+                viewModel.IsSaving(true);
+                var saveData = {
+                    ProjectId: projectId,
+                    ProjectName: viewModel.ProjectName(),
+                    Board: {
+                        Charts: viewModel.Charts(),
+                        MeasureGroups: viewModel.MeasureGroups()
+                    }
+                }
+
+                $.ajaxJson({
+                    url: "/project/saveboard",
+
+                    //data: ko.toJSON(viewModel.Charts, ignoreProps),
+                    data: ko.toJSON(saveData, ignoreProps),
+                    success: function (data) {
+                        viewModel.IsSaving(false);
+                    },
+                    error: function () {
+                        alert("ut oh, something went wrong!");
+                        viewModel.IsSaving(false);
+                    }
+
+                });
+            };
+
+
+            //function addMeasureToGroup($data, 'Primary')
+            viewModel.addMeasureToGroup = function(measureName, measureGroupName) {
+                var currentGroups = viewModel.MeasureGroups();
+                for(i = 0; i < currentGroups.length; i++) {
+                    var currentGroup = currentGroups[i];
+                    if (currentGroups[i].name() !== measureGroupName)
+                        continue;
+
+                    var exists = false;
+                    var currentAvail = currentGroup.available();
+                    for(j = 0; j < currentAvail.length; j++) {
+                        if (currentAvail[j] === measureName)
+                            exists = true;
+                    }
+                    if (exists === false)
+                        currentGroup.available.push(measureName);
+                }
+            };
+
+            viewModel.removeMeasureFromGroup = function(measureName, measureGroupName) {
+                var currentGroups = viewModel.MeasureGroups();
+                for(i = 0; i < currentGroups.length; i++) {
+                    var currentGroup = currentGroups[i];
+                    if (currentGroups[i].name() !== measureGroupName)
+                        continue;
+
+                    currentGroup.available.remove(measureName);
+                }
+            };
+
+            
+
+            viewModel.removeChart = function() {
+                if (viewModel.ActiveChart() === null)
+                    return;
+
+                var chart = viewModel.ActiveChart();
+                viewModel.Charts.remove(chart);
+                viewModel.ActiveChart(null);
+            };
+
+
+            viewModel.addRowChart = function () {
+                var newChart = ko.mapping.fromJS(new RowChartInfo());
+
+                newChart.dimensionName(viewModel.Dimensions()[0]);
+                newChart.measureName(viewModel.Measures()[0]);
+
+                addRowChartToBoard(newChart);
+            };
+
+            function addRowChartToBoard(newChart) {
+                newChart.id("dcChart_" + globalChartCount);
+                globalChartCount++;
+
+                viewModel.Charts.push(newChart);
+
+                wireRowChartChanges(newChart);
+
+                viewModel.makeActive(newChart);
+            }
+
+
+            viewModel.addLineChart = function () {
+                if (viewModel.DateDimensions().length ==0) {
+                    alert("Sorry, you don't have a date dimension/column defined in your data schema")
+                    return;
+                }
+
+                var newChart = ko.mapping.fromJS(new LineChartInfo());
+
+                newChart.measureName(viewModel.Measures()[0]);
+                newChart.dimensionName(viewModel.DateDimensions()[0]);
+
+                addLineChartToBoard(newChart);
+            };
+
+            function addLineChartToBoard(newChart) {
+                newChart.id("dcChart_" + globalChartCount);
+                globalChartCount++;
+
+                viewModel.Charts.push(newChart);
+
+                wireLineChartChanges(newChart);
+
+                viewModel.makeActive(newChart);
+            }
+
+
+            viewModel.addNumberChart = function () {
+                var newChart = ko.mapping.fromJS(new NumberChartInfo());
+
+                newChart.bigMeasureName(viewModel.Measures()[2]);
+                newChart.smallMeasureName(viewModel.Measures()[0]);
+
+                addNumberChartToBoard(newChart);
+
+                viewModel.makeActive(newChart);
+            };
+
+            function addNumberChartToBoard(newChart) {
+                newChart.id("dcChart_" + globalChartCount);
+                globalChartCount++;
+
+                viewModel.Charts.push(newChart);
+
+                wireNumberChartChanges(newChart);
+
+                viewModel.makeActive(newChart);
+            }
+
+
+            viewModel.addBubbleChart = function () {
+                var newChart = ko.mapping.fromJS(new BubbleChartInfo());
+
+                newChart.dimensionName(viewModel.Dimensions()[0]);
+                newChart.measureName(viewModel.Measures()[0]);
+
+                var keyIndex = 0;
+                if (viewModel.Measures().length > 1)
+                    keyIndex = 1;
+                newChart.measureKeyName(viewModel.Measures()[keyIndex]);
+
+                var radiusIndex = 0;
+                if (viewModel.Measures().length > 2)
+                    radiusIndex = 2;
+                newChart.measureRadiusName(viewModel.Measures()[radiusIndex]);
+
+                addBubbleChartToBoard(newChart);
+            };
+
+            function addBubbleChartToBoard(newChart) {
+                newChart.id("dcChart_" + globalChartCount);
+                globalChartCount++;
+
+                newChart.defaultTitle = ko.computed(function() { 
+                    if (newChart.title() === '') {
+                        return "X-" + niceTitle(newChart.measureKeyName()) +", Y-"+niceTitle(newChart.measureName()) +", R-"+niceTitle(newChart.measureRadiusName()) + " - " + newChart.dimensionName();
+                    }
+                    return newChart.title();
+                });
+
+                viewModel.Charts.push(newChart);
+
+                wireBubbleChartChanges(newChart);
+
+                viewModel.makeActive(newChart);
+            }
+
+
+
+            viewModel.addChoroplethChart = function () {
+                var newChart = ko.mapping.fromJS(new ChoroplethChartInfo());
+
+                newChart.dimensionName(viewModel.Dimensions()[0]);
+                newChart.measureName(viewModel.Measures()[0]);
+
+                addChoroplethChartToBoard(newChart);
+            };
+
+            function addChoroplethChartToBoard(newChart) {
+                newChart.id("dcChart_" + globalChartCount);
+                globalChartCount++;
+
+                viewModel.Charts.push(newChart);
+
+                wireChoroplethChartChanges(newChart);
+
+                viewModel.makeActive(newChart);
+            }
+
+
+
+            viewModel.hydrateBoard = function() {
+
+
+                if (rawModel.Board === null || rawModel.Board.MeasureGroups === undefined ) {
+                    var primary = new MeasureGroup("Primary");
+                    primary.available.push(viewModel.Measures()[2]);
+                    primary.available.push(viewModel.Measures()[3]);
+                    primary.available.push(viewModel.Measures()[4]);
+                    primary.active = viewModel.Measures()[4];
+
+                    var secondary = new MeasureGroup("Secondary");
+                    secondary.available.push(viewModel.Measures()[2]);
+                    secondary.available.push(viewModel.Measures()[3]);
+                    secondary.available.push(viewModel.Measures()[4]);
+                    secondary.active = viewModel.Measures()[3];
+
+                    viewModel.MeasureGroups.push(ko.mapping.fromJS(primary));
+                    viewModel.MeasureGroups.push(ko.mapping.fromJS(secondary));
+                    
+                } else {
+                    for(j = 0; j < rawModel.Board.MeasureGroups.length; j++) {
+                        var i = j;
+                        var measureGroup = rawModel.Board.MeasureGroups[i];
+                        var wrappedGroup = ko.mapping.fromJS(measureGroup);
+                        viewModel.MeasureGroups.push(wrappedGroup);
+                    }
+                }
+
+                viewModel.MeasureGroups()[0].active.subscribe(function(newValue) {
+                    var charts = viewModel.Charts();
+                    for(i = 0; i< charts.length; i++) {
+                        charts[i].updateMeasures();
+                    }
+                });
+
+                viewModel.MeasureGroups()[1].active.subscribe(function(newValue) {
+                    var charts = viewModel.Charts();
+                    for(i = 0; i< charts.length; i++) {
+                        charts[i].updateMeasures();
+                    }
+                });
+
+                if (rawModel.Board === null)
+                    return;
+
+                for(j = 0; j < rawModel.Board.Charts.length; j++) {
+                    var i = j;
+
+                    var chart = rawModel.Board.Charts[i];
+
+                    if (chart.highlight === undefined)
+                        chart.highlight = ko.observable(false);
+
+                    if (chart.measureFields === undefined) {
+                        eval("var obj = new " + chart.type + "Info()");
+                        chart.measureFields = obj.measureFields;
+                    }
+
+                    var newChart = ko.mapping.fromJS(chart);
+
+                    if (chart.type === "RowChart") {
+                        addRowChartToBoard(newChart);
+                    } else if (chart.type === "LineChart") {
+                        addLineChartToBoard(newChart);
+                    } else if (chart.type === "NumberChart") {
+                        addNumberChartToBoard(newChart);
+                    } else if (chart.type === "BubbleChart") {
+                        addBubbleChartToBoard(newChart);
+                    } else if (chart.type === "ChoroplethChart") {
+                        addChoroplethChartToBoard(newChart);
+                    }
+
+                }
+            };
+
+
+            viewModel.prepData = function () {
+                var raw = rawModel.DataUrl;
+
+                //d3.json("/content/data/states.json.txt", function (stateData) {
+                //    statesJson = stateData;
+                //});
+                //d3.json("/content/data/world.lowres.json.txt", function (worldData) {
+                //    worldJson = worldData;
+                //});
+
+                d3.csv(rawModel.DataUrl, function (data) {
+                    viewModel.Data = data;
+                    viewModel.visualize();
+                    ko.applyBindings(viewModel);
+                    viewModel.hydrateBoard();
+
+                    // fadeOut loadingDiv
+                    $("#loadingDiv").html("");
+                    $("#loadingDiv").fadeOut(2000);
+                }).on("progress", function(event){
+                    //update progress bar
+                    //console.log("e loaded " + d3.event.loaded);
+                    //console.log("e total " + event.total);
+                    try {
+                        if (d3.event.lengthComputable) {
+                            var percentComplete = Math.round(d3.event.loaded * 100 / d3.event.total);
+                            $("#csvLoadedBar").css("width", percentComplete + "%");
+                            //console.log(percentComplete);
+                        }
+                    }
+                    catch(e) {
+
+                    }
+
+                });
+            };
+
+            viewModel.prepData();
+
+        });
+
+        var getDimensionFunc = function (columnName) {
+            return function (d) {
+                return d[columnName];
+            }
+        };
+
+        var getOrderFunc = function (measureName) {
+            //if avg == NaN, then we don't want to display on bubble chart
+
+            if (measureName === "<Primary>") {
+                var newMeasure = viewModel.MeasureGroups()[0].active();
+                return function (d) {
+                    return d[newMeasure];
+                }
+            } else if (measureName === "<Secondary>") {
+                var newMeasure = viewModel.MeasureGroups()[1].active();
+                return function (d) {
+                    return d[newMeasure];
+                }
+            } else {
+                return function (d) {
+                    return d[measureName];
+                }
+            }
+        };
+
+        var getSpecialOrderFunc = function (measureName) {
+            //if avg == NaN, then we don't want to display on bubble chart
+            //but on row chart, we want to show it as zero
+            if (measureName === "<Primary>") {
+                var newMeasure = viewModel.MeasureGroups()[0].active();
+                return function (d) {
+                    return isNaN(d[newMeasure]) ? 0 : d[newMeasure];
+                }
+            } else if (measureName === "<Secondary>") {
+                var newMeasure = viewModel.MeasureGroups()[1].active();
+                return function (d) {
+                    return isNaN(d[newMeasure]) ? 0 : d[newMeasure];
+                }
+            } else {
+                return function (d) {
+                    return isNaN(d[measureName]) ? 0 : d[measureName];
+                }
+            }
+        };
+
+        var getValueFunc = function (measureName) {
+            if (measureName === "<Primary>") {
+                var newMeasure = viewModel.MeasureGroups()[0].active();
+                return function (d) {
+                    return d.value[newMeasure];
+                }
+            } else if (measureName === "<Secondary>") {
+                var newMeasure = viewModel.MeasureGroups()[1].active();
+                return function (d) {
+                    return d.value[newMeasure];
+                }
+            } else {
+                return function (d) {
+                    return d.value[measureName];
+                }
+            }
+        };
+
+        function wireRowChartChanges(koChart) {
+
+            var dimension = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+            //var dimension = ndx.dimension(function (d) {
+            //    return d["status"];
+            //});
+
+            var group = dimension.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+
+            koChart.dcChart = dc.rowChartV2("#" + koChart.id())
+                .transitionDuration(1500)
+                .width(koChart.width())
+                .height(koChart.height() - koChart.titleHeight())
+                .margins(rowChartMargin)
+                .dimension(dimension)
+
+                .group(group)
+                .elasticX(koChart.elasticX())
+                .colors(defaultColors)
+                .maxDisplayCount(koChart.maxDisplayCount())
+                .renderValue(true)
+                .humanizeValueLabel(true)
+            ;
+
+            koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+            koChart.dcChart.group().order(getSpecialOrderFunc(koChart.measureName()));
+
+            //koChart.dcChart.valueAccessor(function (d) {
+            //    return d.value.count;
+            //});
+            //koChart.dcChart.group().order(function (d) {
+            //    return d.count;
+            //});
+
+            koChart.dcChart.xAxis().ticks(koChart.tickCount()).tickFormat(function (d) { return humanize(d); })
+
+            koChart.tickCount.subscribe(function (newValue) {
+                koChart.dcChart.xAxis().ticks(koChart.tickCount()).tickFormat(function (d) { return humanize(d); })
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.maxDisplayCount.subscribe(function (newValue) {
+                koChart.dcChart.maxDisplayCount(newValue);
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.elasticX.subscribe(function (newValue) {
+                koChart.dcChart.elasticX(newValue);
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.renderValue.subscribe(function (newValue) {
+                koChart.dcChart.renderValue(newValue);
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.humanizeValueLabel.subscribe(function (newValue) {
+                koChart.dcChart.humanizeValueLabel(newValue);
+                koChart.dcChart.doRedraw();
+            });
+
+
+
+            koChart.height.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.height() - koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.titleHeight.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.width.subscribe(function (newValue) {
+                koChart.dcChart.width(newValue);
+                //koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.updateMeasures = function () {
+                var currentDim = koChart.dcChart.dimension();
+
+                koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.dcChart.group().order(getSpecialOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRedraw();
+            }
+
+            koChart.measureName.subscribe(koChart.updateMeasures);
+
+            koChart.dimensionName.subscribe(function (newValue) {
+                var currentDim = koChart.dcChart.dimension();
+
+                var newDim = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+                var newGroup = newDim.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+                //newGroup.order(getDimensionFunc(koChart.dimensionName()));
+
+                koChart.dcChart.dimension(newDim);
+                koChart.dcChart.group(newGroup);
+
+                koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.dcChart.group().order(getSpecialOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+                //currentDim.dispose();
+
+            });
+
+            dc.renderAll();
+        }
+
+        function wireLineChartChanges(koChart) {
+
+            var dimension = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+            var group = dimension.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+
+            var dateCountGroup = dimension.group().reduceCount();
+
+            var dimensionExtent = d3.extent(viewModel.Data, getDimensionFunc(koChart.dimensionName()));
+
+            if (dimensionExtent[0] > dimensionExtent[1]) {
+                var temp = dimensionExtent[0];
+                dimensionExtent[0] = dimensionExtent[1];
+                dimensionExtent[1] = temp;
+            }
+
+            //THIS MUST HAPPEN IN TWO STEPS, creating the linechart, THEN setting up the properties on it
+            //otherwise, we can't properly self reference when we call "compose"
+            koChart.dcChart = dc.compositeChart("#" + koChart.id() + ">.lineChart");
+
+            var comp = koChart.dcChart //do NOT call composite chart here, see few lines above
+                    .width(koChart.width())
+                    .height(koChart.height() - koChart.titleHeight() - koChart.barHeight())
+                    .transitionDuration(1500)
+                    .margins({ top: 10, right: 30, bottom: 25, left: 40 })
+                    .dimension(dimension)
+                    .group(group)
+                    .x(d3.time.scale().domain(dimensionExtent))
+                    //.round(d3.time.week.round)
+                    .xUnits(d3.time.months)
+                    .elasticY(koChart.elasticY())
+                    .renderHorizontalGridLines(true)
+                    .brushOn(false)
+            ;
+
+            comp.xAxis().ticks(5);
+
+            koChart.lineChart = dc.lineChart(koChart.dcChart)
+                            .group(group)
+                            .valueAccessor(getValueFunc(koChart.measureName()))
+                            .renderArea(true)
+
+            koChart.dcChart
+                    .compose([
+                        koChart.lineChart
+                    ])
+                    .xAxis();
+
+            koChart.dcChart.yAxis().tickFormat(function (v) { return humanize(v); });
+
+            koChart.barChart = dc.barChart("#" + koChart.id() + ">.barChart");
+
+            koChart.barChart
+                .width(koChart.width())
+                .height(koChart.barHeight() - 20)
+                .margins({ top: 0, right: 30, bottom: 20, left: 40 })
+                .dimension(dimension)
+                .group(dateCountGroup)
+                .centerBar(true)
+                .gap(0)
+                .x(d3.time.scale().domain(dimensionExtent))
+                .elasticY(true)
+                .valueAccessor(function (d) {
+                    //it is this because dateCountGroup is reduceCount
+                    return d.value;
+                })
+                .renderlet(function (chart) {
+                    chart.select("g.y").style("display", "none");
+                    koChart.dcChart.filter(chart.filter());
+                })
+                .on("filtered", function (chart) {
+                    dc.events.trigger(function () {
+                        koChart.dcChart.focus(chart.filter());
+                    });
+                });
+
+            //koChart.barChart.yAxis().ticks(2);
+
+            koChart.dcChart.valueAccessor(function (d) {
+                return d.value.count;
+            });
+            koChart.dcChart.group().order(function (d) {
+                return d.count;
+            });
+
+
+
+            koChart.height.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.height() - koChart.titleHeight() - koChart.barHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.barHeight.subscribe(function (newValue) {
+                koChart.barChart.height(koChart.barHeight());
+                koChart.barChart.doRender();
+                koChart.barChart.doRedraw();
+            });
+
+            koChart.titleHeight.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.width.subscribe(function (newValue) {
+                koChart.dcChart.width(newValue);
+                koChart.barChart.width(koChart.width())
+
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+
+                koChart.barChart.doRender();
+                koChart.barChart.doRedraw();
+            });
+
+            koChart.updateMeasures = function () {
+                var currentDim = koChart.dcChart.dimension();
+
+                koChart.lineChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.lineChart.group().order(getOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRedraw();
+            };
+
+            koChart.measureName.subscribe(koChart.updateMeasures);
+
+            koChart.dimensionName.subscribe(function (newValue) {
+                var currentDim = koChart.dcChart.dimension();
+
+                var newDim = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+                var newGroup = newDim.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+                //newGroup.order(getDimensionFunc(koChart.dimensionName()));
+
+                koChart.dcChart.dimension(newDim);
+                koChart.dcChart.group(newGroup);
+                koChart.dcChart.group().order(getOrderFunc(koChart.measureName()));
+
+                koChart.lineChart.group(newGroup);
+                koChart.lineChart.group().order(getOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRedraw();
+                //currentDim.dispose();
+
+            });
+
+            dc.renderAll();
+        }
+
+        function wireNumberChartChanges(koChart) {
+
+            var group = oneGroupDimension.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+
+            koChart.dcChart = dc.avgDisplayV3("#" + koChart.id())
+                .transitionDuration(1500)
+                .width(koChart.width())
+                .height(koChart.height() - koChart.titleHeight())
+                .dimension(oneGroupDimension)
+                .group(group)
+
+            ;
+
+            var bigFunc = getOrderFunc(koChart.bigMeasureName());
+            var smallFunc = getOrderFunc(koChart.smallMeasureName());
+
+            koChart.dcChart.valueAccessor(function (d) {
+                return new numberDetail(bigFunc(d), smallFunc(d), koChart.bigMeasureName(), koChart.smallMeasureName());
+            });
+
+            koChart.height.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.height() - koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.titleHeight.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.width.subscribe(function (newValue) {
+                koChart.dcChart.width(newValue);
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.updateMeasures = function () {
+
+                var bigFunc = getOrderFunc(koChart.bigMeasureName());
+                var smallFunc = getOrderFunc(koChart.smallMeasureName());
+
+                koChart.dcChart.valueAccessor(function (d) {
+                    return new numberDetail(bigFunc(d), smallFunc(d), koChart.bigMeasureName(), koChart.smallMeasureName());
+                });
+
+                koChart.dcChart.doRedraw();
+
+            };
+
+            koChart.bigMeasureName.subscribe(koChart.updateMeasures);
+
+            koChart.smallMeasureName.subscribe(koChart.updateMeasures);
+
+            dc.renderAll();
+        }
+
+        function wireBubbleChartChanges(koChart) {
+
+            var dimension = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+            var group = dimension.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+
+            koChart.dcChart = dc.bubbleChartV2("#" + koChart.id())
+                .width(koChart.width())
+                .height(koChart.height() - koChart.titleHeight())
+                .margins({ top: 10, right: 20, bottom: 30, left: 40 })
+                .dimension(dimension)
+                .group(group)
+                .maxDisplayCount(koChart.maxDisplayCount())
+                //.transitionDuration(750)
+                .transitionDuration(1500)
+                //.colors(["#a60000", "#ff0000", "#ff4040", "#ff7373", "#67e667", "#39e639", "#00cc00"])
+                .colors(defaultColors)
+                //.colorDomain([-12000, 12000])
+                .colorAccessor(function (d) {
+                    return 0;
+                })
+                .xAxisPadding('.5%')
+                .yAxisPadding('.5%')
+                .elasticY(true) //if you want to be able to change the valueAccessor, this needs to be on
+
+                .maxBubbleRelativeSize(1)
+                .x(d3.scale.linear())
+                .y(d3.scale.linear())
+                //.r(d3.scale.linear().domain([1, 2]))
+
+                .elasticX(true)
+                .elasticRadius(true)
+
+            //percentages doesn't work :(
+
+
+            .renderHorizontalGridLines(true)
+            .renderVerticalGridLines(true)
+            .renderLabel(true)
+            .renderTitle(true)
+            //.label(function (p) {
+            //    return p.key;
+            //})
+            .title(function (p) {
+                return koChart.dimensionName() + ": " + p.key + "\n"
+
+                                    + niceTitle(koChart.measureName()) + ": " +humanize(getValueFunc(koChart.measureName())(p) )+ "\n"
+                                    + niceTitle(koChart.measureKeyName()) + ": " +humanize(getValueFunc(koChart.measureKeyName())(p) )+ "\n"
+                                    + niceTitle(koChart.measureRadiusName()) + ": " +humanize(getValueFunc(koChart.measureRadiusName())(p) )+ "\n"
+                //+
+                //"\n" +
+                //"\nCharges (total): $" + humanize(p.value.totalCovered)
+                ;
+            })
+
+            ;
+
+            koChart.dcChart.xAxis().ticks(koChart.tickCount()).tickFormat(function (d) { return humanize(d); })
+            koChart.dcChart.yAxis().ticks(koChart.tickCount()).tickFormat(function (d) { return humanize(d); })
+
+            koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+            koChart.dcChart.keyAccessor(getValueFunc(koChart.measureKeyName()));
+            koChart.dcChart.radiusValueAccessor(getValueFunc(koChart.measureRadiusName()));
+            koChart.dcChart.group().order(getOrderFunc(koChart.measureName()));
+
+            //koChart.dcChart.valueAccessor(function (d) {
+            //    return d.value.count;
+            //});
+            //koChart.dcChart.group().order(function (d) {
+            //    return d.count;
+            //});
+
+            //koChart.dcChart.xAxis().ticks(koChart.tickCount()).tickFormat(function (d) { return humanize(d); })
+
+            //koChart.tickCount.subscribe(function (newValue) {
+            //    koChart.dcChart.xAxis().ticks(koChart.tickCount()).tickFormat(function (d) { return humanize(d); })
+            //    koChart.dcChart.doRedraw();
+            //});
+
+            koChart.maxDisplayCount.subscribe(function (newValue) {
+                koChart.dcChart.maxDisplayCount(newValue);
+                koChart.dcChart.doRedraw();
+            });
+
+            //koChart.elasticX.subscribe(function (newValue) {
+            //    koChart.dcChart.elasticX(newValue);
+            //    koChart.dcChart.doRedraw();
+            //});
+
+            //koChart.renderValue.subscribe(function (newValue) {
+            //    koChart.dcChart.renderValue(newValue);
+            //    koChart.dcChart.doRedraw();
+            //});
+
+            //koChart.humanizeValueLabel.subscribe(function (newValue) {
+            //    koChart.dcChart.humanizeValueLabel(newValue);
+            //    koChart.dcChart.doRedraw();
+            //});
+
+
+
+            koChart.height.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.height() - koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.titleHeight.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.width.subscribe(function (newValue) {
+                koChart.dcChart.width(newValue);
+                //koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.updateMeasures = function (newValue) {
+                var currentDim = koChart.dcChart.dimension();
+
+                koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.dcChart.keyAccessor(getValueFunc(koChart.measureKeyName()));
+                koChart.dcChart.radiusValueAccessor(getValueFunc(koChart.measureRadiusName()));
+                koChart.dcChart.group().order(getOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRedraw();
+
+            };
+
+            koChart.measureName.subscribe(koChart.updateMeasures);
+
+            koChart.measureKeyName.subscribe(koChart.updateMeasures);
+
+            koChart.measureRadiusName.subscribe(koChart.updateMeasures);
+
+
+            koChart.dimensionName.subscribe(function (newValue) {
+                var currentDim = koChart.dcChart.dimension();
+
+                var newDim = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+                var newGroup = newDim.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+                newGroup.order(getDimensionFunc(koChart.dimensionName()));
+
+                koChart.dcChart.dimension(newDim);
+                koChart.dcChart.group(newGroup);
+
+                koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.dcChart.keyAccessor(getValueFunc(koChart.measureKeyName()));
+                koChart.dcChart.radiusValueAccessor(getValueFunc(koChart.measureRadiusName()));
+                koChart.dcChart.group().order(getOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+                //currentDim.dispose();
+
+            });
+
+            dc.renderAll();
+        }
+
+        function wireChoroplethChartChanges(koChart) {
+
+            var dimension = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+            //var dimension = ndx.dimension(function (d) {
+            //    return d["status"];
+            //});
+
+            var group = dimension.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+
+            koChart.dcChart = dc.geoChoroplethChartV2("#" + koChart.id())
+                .transitionDuration(1500)
+                .width(koChart.width())
+                .height(koChart.height() - koChart.titleHeight())
+                //.margins(rowChartMargin)
+                .dimension(dimension)
+                //.colors(["#D0D1E6", "#A6BDDB", "#74A9CF", "#3690C0", "#0570B0", "#034E7B"])
+                .group(group)
+                .valueAccessor(function (d) {
+                    return d.value.weightAvgCovered;
+                })
+                .overlayGeoJson(worldJson.features, "world", function (d) {
+                    return d.properties.name;
+                })
+                .title(function (d) {
+                    return "hey, ya"; //"State: " + d.key + "\nValue: " + humanize(d.value ? d.value : 0);
+                })
+            //.humanizeValueLabel(true)
+            ;
+
+            //https://github.com/mbostock/d3/wiki/Geo-Projections
+            //var projection = usChart.projection(d3.geo.albersUsa().scale(300).translate([130, 100]));
+            var projection = koChart.dcChart.projection(d3.geo.mercator());
+
+            koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+            koChart.dcChart.group().order(getSpecialOrderFunc(koChart.measureName()));
+
+            //koChart.dcChart.valueAccessor(function (d) {
+            //    return d.value.count;
+            //});
+            //koChart.dcChart.group().order(function (d) {
+            //    return d.count;
+            //});
+
+            koChart.height.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.height() - koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.titleHeight.subscribe(function (newValue) {
+                koChart.dcChart.height(koChart.titleHeight());
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.width.subscribe(function (newValue) {
+                koChart.dcChart.width(newValue);
+                //koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+            });
+
+            koChart.updateMeasures = function (newValue) {
+                var currentDim = koChart.dcChart.dimension();
+
+                koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.dcChart.group().order(getSpecialOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRedraw();
+            };
+
+            koChart.measureName.subscribe(koChart.updateMeasures);
+
+            koChart.dimensionName.subscribe(function (newValue) {
+                var currentDim = koChart.dcChart.dimension();
+
+                var newDim = ndx.dimension(getDimensionFunc(koChart.dimensionName()));
+
+                var newGroup = newDim.group().reduce(viewModel.aggAdd, viewModel.aggRemove, viewModel.aggInit);
+                //newGroup.order(getDimensionFunc(koChart.dimensionName()));
+
+                koChart.dcChart.dimension(newDim);
+                koChart.dcChart.group(newGroup);
+
+                koChart.dcChart.valueAccessor(getValueFunc(koChart.measureName()));
+                koChart.dcChart.group().order(getSpecialOrderFunc(koChart.measureName()));
+
+                koChart.dcChart.doRender();
+                koChart.dcChart.doRedraw();
+                //currentDim.dispose();
+
+            });
+
+            dc.renderAll();
+        }
+
+    </script>
+
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-51448218-1', 'machete.io');
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+    </script>
+
+
+</body>
+</html>
+

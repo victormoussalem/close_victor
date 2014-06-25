@@ -25,6 +25,10 @@ def index(root=None):
 
     return render_template('index.html', root=root)
 
+@app.route('/static/funding-rounds')
+def crossfilter_funding_rounds(root=None):
+	return render_template('funding-rounds.html')
+
 @app.route('/static/dropbox')
 def crossfilter_dropbox(root=None):
     acq = models.Company.query.all()
