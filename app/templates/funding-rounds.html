@@ -21,7 +21,7 @@
     <link href="/static/stylesheets/site.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:200,300,400,500,600,700' rel='stylesheet' type='text/css'>
 
-    <script src="/static/javascripts/modernizr?v=rGcoDow97GYrNMSwHq7xCCjlcB3UIY4_OhPRc6BBSQA1"></script>
+    <script src="/static/javascripts/machete-script.js"></script>
 
 
     
@@ -38,7 +38,6 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -119,35 +118,9 @@
 </style>
 
 <div class="col-md-12">
-        <div class="row" style="margin-bottom: 8px">
-            <div class="col-md-6">
-                <span data-bind="text: ProjectName" style="font-size: 30px;"></span>
-                <a href="#" data-toggle="modal" data-target="#infoModal" style="font-size: 20px" class="text-muted">
-                    <span class="glyphicon glyphicon-info-sign"></span>
-                </a>
-            </div>
-            <div class="col-md-2">
-                <a href="https://twitter.com/share" class="twitter-share-button" data-text="Awesome Visualization - Seed DB Funding Rounds" data-via="machete_io" data-size="large">Tweet</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            </div>
-            <div class="col-md-4">
-                <a href="/beta" class="btn btn-warning pull-right" target="_blank">Create your own visualization</a>
-            </div>
-        </div>
         <div class="row">
             <div class="col-md-6" style="margin-bottom: 5px;">
                 <!-- ko with:MeasureGroups()[0] -->
-                <label for=" title" class="">Primary</label>
-                <select class="input-sm hoverHiglightChart" data-bind="options: available, value: active, event: { mouseover: $root.primaryOver, mouseout: $root.primaryOut }"></select>
-                <!-- /ko -->
-
-                
-                    <!-- ko with:MeasureGroups()[1] -->
-                <span data-bind="visible: available().length > 0 ">
-                    <label for="title" class="" style="margin-left: 15px;">Secondary</label>
-                    <select class="input-sm hoverHiglightChart" data-bind="options: available, value: active, event: { mouseover: $root.secondaryOver, mouseout: $root.secondaryOut }"></select>
-
-                </span>
                     <!-- /ko -->
 
                 

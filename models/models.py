@@ -93,6 +93,8 @@ class Company(db.Model):
 		dc["founded_on_year"] = self.founded_on_year
 		dc["founded_on_month"] = self.founded_on_month
 		dc["founded_on_day"] = self.founded_on_day
+#		dc["acquisition_date"] = self.acquisition_date
+#		dc["url"] = se;f.url
 		#take care of rest
 
 	def from_dict(self, d):
