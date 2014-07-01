@@ -185,7 +185,7 @@ def createCompany(x):
 		number_of_funding_rounds = "0"
 
 	#headquarters
-	headquarters = json.dumps(response["data"]["relationships"]["headquarters"]["items"][0]["city"])
+	headquarters = response["data"]["relationships"]["headquarters"]["items"][0]["city"]
 
 #	company = models.Company(uuid=uuid, permalink=permalink, name=name, homepage_url=homepage_url, description=description, founded_day=founded_day, founded_month=founded_month, founded_year=founded_year)
 	company = models.Company(name=name, homepage_url=homepage_url, description=description, founded_on_day=founded_on_day, founded_on_month=founded_on_month, founded_on_year=founded_on_year, headquarters=headquarters, number_of_employees=number_of_employees, number_of_investments=number_of_investments, total_funding_usd=total_funding_usd, number_of_funding_rounds=number_of_funding_rounds)
@@ -237,7 +237,6 @@ def createCompany(x):
 		categories.append(categories_response["data"]["items"][i]["name"])
 
 	for m in categories:
-		print m
 		category = models.Category(name=m, company=company)
 		db.session.add(category)
 		#company.ct.append(m)
@@ -310,15 +309,12 @@ def createCompany(x):
 				num_investors = funding_round_response["data"]["relationships"]["investments"]["paging"]["total_items"]
 
 				investment_page = funding_round_response["data"]["relationships"]["investments"]["paging"]["first_page_url"]
-				print investment_page
 				investment_response = getInvestmentData(investment_page)
 
 				for j in range (0, num_investors):
 					if (investment_response["data"]["items"][j]["investor"].get("name")):
 						investor = investment_response["data"]["items"][j]["investor"]["name"]
-						print investor
 						investor_type = investment_response["data"]["items"][j]["investor"]["type"]
-						print investor_type
 						investor = models.Investor(name = investor, company=company)
 
 
@@ -423,7 +419,7 @@ def createCompany(x):
 
 		#headquarters
 		if (acquisition_page["data"]["relationships"].get("headquarters")):
-			headquarters = json.dumps(acquisition_page["data"]["relationships"]["headquarters"]["items"][0]["city"])
+			headquarters = acquisition_page["data"]["relationships"]["headquarters"]["items"][0]["city"]
 		else:
 			headquarters = "0"
 
@@ -464,7 +460,6 @@ def createCompany(x):
 				categories_aq.append(categories_aq_response["data"]["items"][i]["name"])
 
 			for m in categories_aq:
-				print m
 				category = models.Category(name=m, acquisition=acquisition)
 				#acquisition.ct_aq.append(m)
 		else:
@@ -520,26 +515,18 @@ def createCompany(x):
 				else:
 					amount_raised = "0"
 				num_investors = funding_round_response["data"]["relationships"]["investments"]["paging"]["total_items"]
-				print num_investors
 				investment_page = funding_round_response["data"]["relationships"]["investments"]["paging"]["first_page_url"]
-				print investment_page
 				investment_response = getInvestmentData(investment_page)
 
 				for j in range (0, num_investors):
-					print j
 					if (investment_response["data"]["items"][j]["investor"].get("name")):
-						print j
 						investor = investment_response["data"]["items"][j]["investor"]["name"]
-						print investor
 						investor_type = investment_response["data"]["items"][j]["investor"]["type"]
-						print investor_type
 						investor = models.Investor(name = investor, acquisition=acquisition)
 						db.session.add(investor)
 					elif(investment_response["data"]["items"][j]["investor"].get("first_name")):
 						investor = investment_response["data"]["items"][j]["investor"]["first_name"] + " " + investment_response["data"]["items"][j]["investor"]["last_name"]
-						print investor
 						investor_type = investment_response["data"]["items"][j]["investor"]["type"]
-						print investor_type
 						investor = models.Investor(name = investor, acquisition=acquisition)
 						db.session.add(investor)
 

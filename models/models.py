@@ -83,6 +83,7 @@ class Company(db.Model):
 
 	news = db.relationship('News', backref = 'company', lazy = 'dynamic')
 	nws = association_proxy('news', 'article_title')
+	nws_url = association_proxy('news', 'article_url')
 
 	websites = db.relationship('Website', backref = 'company', lazy = 'dynamic')
 	wb = association_proxy('websites', 'website_title')
@@ -102,22 +103,78 @@ class Company(db.Model):
 
 	def dc_json(self):
 		dc = {}
-		dc["city"] = self.headquarters
-		dc["name"] = self.name
-		dc["description"] = self.description
-		dc["url"] = self.homepage_url
-		dc["founded_date"] = self.founded_on_year
+		if (self.headquarters):
+			dc["city"] = self.headquarters
+		else:
+			dc["city"] = " "
+
+		if (self.name):
+			dc["name"] = self.name
+		else:
+			dc["name"] = " "
+
+		if (self.description):
+			dc["description"] = self.description
+		else:
+			dc["description"] = " "
+
+		if (self.homepage_url):
+			dc["url"] = self.homepage_url
+		else:
+			dc["url"] = " "
+
+		if (self.founded_on_year):
+			dc["founded_date"] = self.founded_on_year
+		else:
+			dc["founded_date"] = " "
+
 		#dc["founded_on_month"] = self.founded_on_month
 		#dc["founded_on_day"] = self.founded_on_day
-		dc["number_of_employees"] = self.number_of_employees
-		dc["news_titles"] = self.news_titles
-		dc["news_urls"] = self.news_urls
-		dc["founders"] = self.fd
-		dc["founder_education"] = self.fd_education
-		dc["categories"] = self.ct
-		dc["investors"] = self.iv
-		dc["total_funding_amount"] = self.total_funding_usd
-		dc["num_funding_rounds"] = self.number_of_investments
+
+		if (self.number_of_employees):
+			dc["number_of_employees"] = self.number_of_employees
+		else:
+			dc["number_of_employees"] = " "
+
+		if (self.nws):
+			dc["news_titles"] = list(self.nws)
+		else:
+			dc["news_titles"] = " "
+
+		if (self.nws_url):	
+			dc["news_urls"] = list(self.nws_url)
+		else:
+			dc["news_urls"] = " "
+
+		if (self.fd):	
+			dc["founders"] = list(self.fd)
+		else:
+			dc["founders"] = " "
+
+		if (self.fd_education):
+			dc["founder_education"] = list(self.fd_education)
+		else:
+			dc["founder_education"] = " "
+
+		if (self.ct):
+			dc["categories"] = list(self.ct)
+		else:
+			dc["categories"] = " "
+
+		if (self.iv):
+			dc["investors"] = list(self.iv)
+		else:
+			dc["investors"] = " "
+
+		if (self.total_funding_usd):
+			dc["total_funding_amount"] = self.total_funding_usd
+		else:
+			dc["total_funding_amount"] = " "
+
+		if (self.number_of_investments):
+			dc["num_funding_rounds"] = self.number_of_investments
+		else:
+			dc["num_funding_rounds"] = " "
 		#have one for acquisitions as well with acquired_date
 		#take care of rest
 
@@ -172,13 +229,14 @@ class Acquisition(db.Model):
 
 	founders_aq = db.relationship('Founder', backref = 'acquisition', lazy = 'dynamic')
 	fd_aq = association_proxy('founders_aq', 'name')
-	fd_education = association_proxy('founders', 'education')
+	fd_aq_education = association_proxy('founders_aq', 'education')
 
 	competitors_aq = db.relationship('Competitor', backref = 'acquisition', lazy = 'dynamic')
 	cp_aq = association_proxy('competitors_aq', 'name')
 
 	news_aq = db.relationship('News', backref = 'acquisition', lazy = 'dynamic')
 	nws_aq = association_proxy('news_aq', 'article_title')
+	nws_url_aq = association_proxy('news_aq', 'article_url')
 
 	websites_aq = db.relationship('Website', backref = 'acquisition', lazy = 'dynamic')
 	wb_aq = association_proxy('websites_aq', 'website_title')
@@ -188,23 +246,83 @@ class Acquisition(db.Model):
 
 	def dc_json(self):
 		dc = {}
-		dc["city"] = self.headquarters
-		dc["name"] = self.name
-		dc["description"] = self.description
-		dc["url"] = self.homepage_url
-		dc["founded_date"] = self.founded_on_year
-		dc["acquired_by"] = self.acquirer
+
+		if (self.headquarters):
+			dc["city"] = self.headquarters
+		else:
+			dc["city"] = " "
+
+		if (self.name):
+			dc["name"] = self.name
+		else:
+			dc["name"] = " "
+
+		if (self.description):	
+			dc["description"] = self.description
+		else:
+			dc["description"] = " "
+
+		if (self.homepage_url):	
+			dc["url"] = self.homepage_url
+		else:
+			dc["url"] = " "
+
+		if (self.founded_on_year):
+			dc["founded_date"] = self.founded_on_year
+		else:
+			dc["founded_date"] = " "
+
+		if (self.acquirer):
+			dc["acquired_by"] = self.acquirer
+		else:
+			dc["acquired_by"] = " "
 		#dc["founded_on_month"] = self.founded_on_month
 		#dc["founded_on_day"] = self.founded_on_day
-		dc["number_of_employees"] = self.number_of_employees
-		dc["news_titles"] = self.news_titles
-		dc["news_urls"] = self.news_urls
-		dc["founders"] = self.fd_aq
-		dc["founder_education"] = self.fd_education
-		dc["categories"] = self.ct_aq
-		dc["investors"] = self.iv_aq
-		dc["total_funding_amount"] = self.total_funding_usd
-		dc["num_funding_rounds"] = self.number_of_investments
+
+		if (self.number_of_employees):
+			dc["number_of_employees"] = self.number_of_employees
+		else:
+			dc["number_of_employees"] = " "
+
+		if (self.nws_aq):	
+			dc["news_titles"] = list(self.nws_aq)
+		else:
+			dc["news_titles"] = " "
+
+		if (self.nws_url_aq):	
+			dc["news_urls"] = list(self.nws_url_aq)
+		else:
+			dc["news_urls"] = " "
+
+		if (self.fd_aq):
+			dc["founders_aq"] = list(self.fd_aq)
+		else:
+			dc["founders_aq"] = " "
+
+		if (self.fd_aq_education):
+			dc["founder_education"] = list(self.fd_aq_education)
+		else:
+			dc["founder_education"] = " "
+
+		if (self.ct_aq):
+			dc["categories"] = list(self.ct_aq)
+		else:
+			dc["categories"] = " "
+
+		if (self.iv_aq):
+			dc["investors"] = list(self.iv_aq)
+		else:
+			dc["investors"] = " "
+
+		if (self.total_funding_usd):
+			dc["total_funding_amount"] = self.total_funding_usd
+		else:
+			dc["total_funding_amount"] = " "
+
+		if (self.number_of_investments):
+			dc["num_funding_rounds"] = self.number_of_investments
+		else:
+			dc["num_funding_rounds"] = " "
 
 #city(have this), name(have this), founded_date(have this), acquisition_date(have this), acquired_by(have this), url(have this), description(have this), founders(have this), founder_education(partial), categories(have this), investors(partial), total_funding_amount(partial), num_funding_rounds(partial), news_titles(have this), news_urls(have this)
 

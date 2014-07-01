@@ -19,30 +19,67 @@ def index(root=None):
     root = []
 
     for u in acq:
-	root.append(u.root_json())
+		root.append(u.root_json())
 
 #	    root = {u.name: list(u.aq) for u in acq}
 
     return render_template('index.html', root=root)
 
+@app.route('/test.json')
+def test(root=None):
+    acq = models.Company.query.all()
+
+    root = []
+    for u in acq:
+    	root = {"name": u.name ,"acquisition": list(u.aq)}
+
+#    root = {u.name: list(u.aq) for u in acq}
+
+#    for u in acq:
+#		root.append({root["source"] = u.name )
+
+    return jsonify(root)
+
+
+
 @app.route('/static/funding-rounds')
 def crossfilter_funding_rounds(root=None):
 	return render_template('funding-rounds.html')
 
+@app.route('/static/dropbox.json')
+def dropbox_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(1)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq)})
+
+	return json.dumps(root)
+
 @app.route('/static/dropbox')
-def crossfilter_dropbox(root=None):
-    acq = models.Company.query.all()
+def crossfilter_dropbox(root=None, dc=None):
+	acq = models.Company.query.all()
 
-    root = []
+	root = []
 
-    for u in acq:
-	root.append(u.root_json())
+	dc = []
+
+	dbox = models.Company.query.get(1)
+
+	for u in acq:
+		root.append(u.root_json())
+
+	for aq in dbox.acquisitions:
+		dc.append(aq.dc_json())
 
 #    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 #    yelp_data_url = os.path.join(SITE_ROOT, "static/crossfilter/data/yelp_test_set_business.json")
 #    yelp_data = json.load(open(yelp_data_url))
 
-    return render_template('indexDropbox.html', root=root)
+	return render_template('indexDropbox.html', root=root, dc=dc)
 
 
 @app.route('/static/facebook')
@@ -98,4 +135,3 @@ class Company:
 		tree["acquisitions"] = self.acquisitions
 		return tree
 """
-
