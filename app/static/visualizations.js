@@ -1,17 +1,10 @@
 /********************************************************
 *                                                       *
-*   dj.js example using Yelp Kaggle Test Dataset        *
-*   Eamonn O'Loughlin 9th May 2013                      *
-*                                                       *
-********************************************************/
- 
-/********************************************************
-*                                                       *
 *   Step0: Load data from json file                     *
 *                                                       *
 ********************************************************/
 
-d3.json("dropbox_test.json", function (data) {
+d3.json("dropbox.json", function (data) {
      
 /********************************************************
 *                                                       *
@@ -26,11 +19,14 @@ d3.json("dropbox_test.json", function (data) {
 var dataTable = dc.dataTable("#dc-table-graph");
 var rowChart = dc.rowChart("#dc-row-graph");
 var other_rowChart = dc.rowChart("#other-dc-row-graph");
+
+//var third_rowChart = dc.rowChart("#third-dc-row-graph")
  
 //var moveChart = dc.lineChart("#yearly-move-chart");
 //var volumeChartSecond = dc.barChart("#yearly-volume-chart");
 var testPieChart = dc.pieChart("#dc-test-pie-chart");
 var testBarChart = dc.barChart("#dc-test-bar-chart");
+
 //var testBarChart = dc.barChart("#dc-test-bar-chart");
 
 /********************************************************
@@ -189,7 +185,7 @@ lineChart.width(230)
 */
 
 var volumeByHour = ndx.dimension(function (d) {
-	return (d.acquisition_date);
+	return (d.date);
 });
 
 var volumeByHourGroup = volumeByHour.group().reduceCount(function (d) {
@@ -285,7 +281,6 @@ other_rowChart.width(340)
 //                    bubbleChart.filter(chart.filter());
 //                });
 //                        });
-
  
 dataTable.width(800).height(800)
     .dimension(businessDimension)
@@ -296,19 +291,12 @@ dataTable.width(800).height(800)
         function(d) { return d.name; },
         function(d) { return d.city; },
         function(d) { return d.acquisition_date; },
-        function(d) { return d.categories.join(", ");
-		/*
-		var result = "";
-		for (var i = 0; i < d.categories.length; i++) {
-			console.log(result);
-			result = result + d.categories[i] + ", " ;
-		}	
-  		return result;
-		*/
-	 },
-        function(d) { return d.founder_education}
+        function(d) { return d.categories.join(", ");},
+        function(d) { return d.founder_education;},
+        function(d) { return d.description;},
+        function(d) { return d.news_titles}
     ])
-    .sortBy(function(d){ return d.acquisition_date; })
+    .sortBy(function(d){ return d.date; })
     // (optional) sort order, :default ascending
     .order(d3.descending);
 
@@ -348,7 +336,7 @@ volumeChart.width(990)
 */
 
 var categories = ndx.dimension(function (d) {
-	return d.acquisition_date;
+	return d.categories;
 });
 
 var categoriesGroup = categories.group();
@@ -363,7 +351,7 @@ testPieChart.width(250)
 	.title(function (d) {return "Cities";});
 
 var industries = ndx.dimension(function (d) {
-	return d.acquisitions_date;
+	return d.date;
 });
 
 
@@ -381,7 +369,7 @@ testBarChart.width(4800)
 
 
 var industriesGroup = industries.group()
-	.reduceCount(function (d) { d.acquisition_date; })
+	.reduceCount(function (d) { d.date; })
 /*
 testBarChart.width(480)
 	.height(150)
