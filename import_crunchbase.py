@@ -15,8 +15,8 @@ API_VERSION = "2"
 API_URL = API_BASE_URL + "v" + "/" + API_VERSION + "/"
 
 #companies = ["Facebook", "Google", "Apple", "Microsoft", "Yahoo", "Dropbox", "Twitter", "Box", "Amazon", "Linkedin" ]
-#companies = ["Dropbox", "Facebook", "Pinterest", "Google", "Samsung-Electronics", "Verizon", "GoPro", "Microsoft", "Twitter", "Apple"]
-companies = ["Dropbox"]
+companies = ["Facebook", "Pinterest", "Google", "Samsung-Electronics", "Verizon", "GoPro", "Microsoft", "Twitter", "Apple"]
+#companies = ["Dropbox"]
 
 investors = [""]
 
@@ -254,6 +254,7 @@ def createCompany(x):
 		#founder education
 		for i in range(0, numFounders):
 			founder_path = founders_response["data"]["items"][i]["path"]
+			time.sleep(2)
 			founder_response = getPersonData(founder_path)
 			if (founder_response["data"]["relationships"].get("degrees")):
 				founder_education = founder_response["data"]["relationships"]["degrees"]["items"][0]["organization_name"]
@@ -297,6 +298,7 @@ def createCompany(x):
 		funding_rounds_response = getFundingRoundsData(x)
 
 		for i in range(0, numFundingRounds):
+			time.sleep(2)
 			funding_round_path = funding_rounds_response["data"]["items"][i]["path"]
 			funding_round_response = getFundingRoundData(funding_round_path)
 
@@ -309,6 +311,7 @@ def createCompany(x):
 				num_investors = funding_round_response["data"]["relationships"]["investments"]["paging"]["total_items"]
 
 				investment_page = funding_round_response["data"]["relationships"]["investments"]["paging"]["first_page_url"]
+				time.sleep(2)
 				investment_response = getInvestmentData(investment_page)
 
 				for j in range (0, num_investors):
@@ -487,6 +490,7 @@ def createCompany(x):
 			#founder education
 			for i in range(0, numFounders):
 				founder_path = founders_response["data"]["items"][i]["path"]
+				time.sleep(2)
 				founder_response = getPersonData(founder_path)
 				if (founder_response["data"]["relationships"].get("degrees")):
 					founder_education = founder_response["data"]["relationships"]["degrees"]["items"][0]["organization_name"]
@@ -504,6 +508,7 @@ def createCompany(x):
 
 			for i in range(0, numFundingRounds):
 				funding_round_path = funding_rounds_response["data"]["items"][i]["path"]
+				time.sleep(2)
 				funding_round_response = getFundingRoundData(funding_round_path)
 
 				funding_type = funding_round_response["data"]["properties"]["funding_type"]
@@ -514,23 +519,24 @@ def createCompany(x):
 					amount_raised = funding_round_response["data"]["properties"]["money_raised"]
 				else:
 					amount_raised = "0"
-				num_investors = funding_round_response["data"]["relationships"]["investments"]["paging"]["total_items"]
-				investment_page = funding_round_response["data"]["relationships"]["investments"]["paging"]["first_page_url"]
-				investment_response = getInvestmentData(investment_page)
+				if (funding_round_response["data"]["relationships"].get("investments")):
+					num_investors = funding_round_response["data"]["relationships"]["investments"]["paging"]["total_items"]
+					investment_page = funding_round_response["data"]["relationships"]["investments"]["paging"]["first_page_url"]
+					investment_response = getInvestmentData(investment_page)
 
-				for j in range (0, num_investors):
-					if (investment_response["data"]["items"][j]["investor"].get("name")):
-						investor = investment_response["data"]["items"][j]["investor"]["name"]
-						investor_type = investment_response["data"]["items"][j]["investor"]["type"]
-						investor = models.Investor(name = investor, acquisition=acquisition)
-						db.session.add(investor)
-					elif(investment_response["data"]["items"][j]["investor"].get("first_name")):
-						investor = investment_response["data"]["items"][j]["investor"]["first_name"] + " " + investment_response["data"]["items"][j]["investor"]["last_name"]
-						investor_type = investment_response["data"]["items"][j]["investor"]["type"]
-						investor = models.Investor(name = investor, acquisition=acquisition)
-						db.session.add(investor)
+					for j in range (0, num_investors):
+						if (investment_response["data"]["items"][j]["investor"].get("name")):
+							investor = investment_response["data"]["items"][j]["investor"]["name"]
+							investor_type = investment_response["data"]["items"][j]["investor"]["type"]
+							investor = models.Investor(name = investor, acquisition=acquisition)
+							db.session.add(investor)
+						elif(investment_response["data"]["items"][j]["investor"].get("first_name")):
+							investor = investment_response["data"]["items"][j]["investor"]["first_name"] + " " + investment_response["data"]["items"][j]["investor"]["last_name"]
+							investor_type = investment_response["data"]["items"][j]["investor"]["type"]
+							investor = models.Investor(name = investor, acquisition=acquisition)
+							db.session.add(investor)
 
-		time.sleep(3)
+			time.sleep(3)
 
 		#competitors
 		if (acquisition_page["data"]["relationships"].get("competitors")):

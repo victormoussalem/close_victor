@@ -20,7 +20,7 @@ var dataTable = dc.dataTable("#dc-table-graph");
 var rowChart = dc.rowChart("#dc-row-graph");
 var other_rowChart = dc.rowChart("#other-dc-row-graph");
 
-//var third_rowChart = dc.rowChart("#third-dc-row-graph")
+var third_rowChart = dc.rowChart("#third-dc-row-graph")
  
 //var moveChart = dc.lineChart("#yearly-move-chart");
 //var volumeChartSecond = dc.barChart("#yearly-volume-chart");
@@ -247,6 +247,40 @@ categoriesTestGroup.all =  function() {
   return newObject;
 }
 
+function reduceOneAdd(p, v) {
+  v.investors.forEach (function(val, idx) {
+     p[val] = (p[val] || 0) + 1; //increment counts
+  });
+  return p;
+}
+
+function reduceOneRemove(p, v) {
+  v.investors.forEach (function(val, idx) {
+     p[val] = (p[val] || 0) - 1; //decrement counts
+  });
+  return p;
+
+}
+
+function reduceOneInitial() {
+  return {};  
+}
+
+var investorsTest = ndx.dimension(function (d) { return d.investors; });
+var investorsTestGroup = investorsTest.groupAll().reduce(reduceOneAdd, reduceOneRemove, reduceOneInitial).value();
+// hack to make dc.js charts work
+investorsTestGroup.all =  function() {
+  var newObject = [];
+  for (var key in this) {
+    if (this.hasOwnProperty(key) && key != "all") {
+      newObject.push({
+        key: key,
+        value: this[key]
+      });
+    }
+  }
+  return newObject;
+}
 
 rowChart.width(340)
             .height(850)
@@ -255,7 +289,7 @@ rowChart.width(340)
             .renderLabel(true)
             .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
             .colorDomain([0, 0])
-	    .xAxis().ticks(8);
+	        .xAxis().ticks(8);
 //            .renderlet(function (chart) {
             //    bubbleChart.filter(chart.filter());
 //            })
@@ -272,7 +306,7 @@ other_rowChart.width(340)
             .renderLabel(true)
             .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
             .colorDomain([0, 0])
-	    .xAxis().ticks(8);
+	        .xAxis().ticks(8);
 //            .renderlet(function (chart) {
 //                bubbleChart.filter(chart.filter());
 //            })
@@ -282,6 +316,15 @@ other_rowChart.width(340)
 //                });
 //                        });
  
+third_rowChart.width(340)
+            .height(850)
+            .dimension(investorsTest)
+            .group(investorsTestGroup)
+            .renderLabel(true)
+            .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
+            .colorDomain([0, 0])
+            .xAxis().ticks(8);
+
 dataTable.width(800).height(800)
     .dimension(businessDimension)
     .group(function(d) { return "List of all Selected Acquisitions"
