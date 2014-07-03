@@ -52,7 +52,7 @@ def dropbox_json(root=None):
 	root = []
 	dc = {}
 
-	dbox = models.Company.query.get(1)
+	dbox = models.Company.query.get(6)
 
 	for aq in dbox.acquisitions:
 		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})

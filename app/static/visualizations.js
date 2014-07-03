@@ -15,12 +15,13 @@ d3.json("dropbox.json", function (data) {
 //var pieChart = dc.pieChart("#dc-pie-graph");
 //var volumeChart = dc.barChart("#dc-volume-chart");
 //var lineChart = dc.lineChart("#dc-line-chart");
-//var timeChart = dc.lineChart("#dc-time-chart");
+var timeChart = dc.lineChart("#dc-time-chart");
 var dataTable = dc.dataTable("#dc-table-graph");
 var rowChart = dc.rowChart("#dc-row-graph");
 var other_rowChart = dc.rowChart("#other-dc-row-graph");
 
-var third_rowChart = dc.rowChart("#third-dc-row-graph")
+var third_rowChart = dc.rowChart("#third-dc-row-graph");
+var fourth_rowChart = dc.rowChart("fourth-dc-row-graph");
  
 //var moveChart = dc.lineChart("#yearly-move-chart");
 //var volumeChartSecond = dc.barChart("#yearly-volume-chart");
@@ -192,7 +193,7 @@ var volumeByHourGroup = volumeByHour.group().reduceCount(function (d) {
 	return d.Categories;
 });
 
-/*
+
 timeChart.width(960)
     .height(150)
     .margins({top: 10, right: 10, bottom: 20, left: 40})
@@ -210,7 +211,6 @@ timeChart.width(960)
     .xUnits(d3.time.months)
     .renderHorizontalGridLines(true)
     .xAxis();
-*/
 
 function reduceAdd(p, v) {
   v.categories.forEach (function(val, idx) {
@@ -325,6 +325,15 @@ third_rowChart.width(340)
             .colorDomain([0, 0])
             .xAxis().ticks(8);
 
+fourth_rowChart.width(340)
+            .height(850)
+            .dimension(cityDimension)
+            .group(cityGroup)
+            .renderLabel(true)
+            .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
+            .colorDomain([0, 0])
+            .xAxis().ticks(8);
+
 dataTable.width(800).height(800)
     .dimension(businessDimension)
     .group(function(d) { return "List of all Selected Acquisitions"
@@ -398,11 +407,11 @@ var industries = ndx.dimension(function (d) {
 });
 
 
-testBarChart.width(4800)
+testBarChart.width(480)
 	.height(150)
 	.margins({top: 10, right: 40, bottom: 20, left: 40})
-	.dimension(categoriesTest)
-	.group(categoriesTestGroup)
+	.dimension(cityDimension)
+	.group(cityGroup)
 	.transitionDuration(500)
 	.centerBar(true)
 	.gap(5)
