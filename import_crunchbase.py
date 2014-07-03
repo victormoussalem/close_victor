@@ -15,8 +15,8 @@ API_VERSION = "2"
 API_URL = API_BASE_URL + "v" + "/" + API_VERSION + "/"
 
 #companies = ["Facebook", "Google", "Apple", "Microsoft", "Yahoo", "Dropbox", "Twitter", "Box", "Amazon", "Linkedin" ]
-companies = ["Google", "Verizon"]
-#companies = ["Dropbox", "Facebook", "Pinterest", "Samsung-Electronics", "GoPro", "Microsoft", "Twitter", "Apple"]
+#companies = ["Google", "Verizon"]
+companies = ["Dropbox", "Facebook", "Pinterest", "Samsung-Electronics", "GoPro", "Microsoft", "Twitter", "Apple", "Google", "Verizon"]
 
 investors = [""]
 
