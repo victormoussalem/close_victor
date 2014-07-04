@@ -14,6 +14,14 @@ def main(root=None):
 
 @app.route('/')
 def index(root=None):
+	return render_template('homepage.html')
+
+@app.route('/static/investments')
+def investments(root=None):
+	return render_template('investments.html')
+
+@app.route('/root')
+def root(root=None):
     acq = models.Company.query.all()
 
     root = []
