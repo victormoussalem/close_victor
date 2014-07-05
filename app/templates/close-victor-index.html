@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Close Victor</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="/static/css/stylish-portfolio.css" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Side Menu -->
+    <a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+            <li class="sidebar-brand"><a href="#">Close Victor</a>
+            </li>
+            <li><a href="#top">Home</a>
+            </li>
+            <li><a href="#about">About</a>
+            </li>
+            <li><a href="#portfolio">Portfolio</a>
+            </li>
+            <li><a href="#contact">Contact</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /Side Menu -->
+
+    <!-- Full Page Image Header Area -->
+    <div id="top" class="header">
+        <div class="vert-text">
+            <h1>Close Victor</h1>
+            <h3>
+                <em>More Features will be added soon</em>
+            </h3>
+            <a href="/static/investments" class="btn btn-default btn-lg">Investments Graph</a>
+            <a href="/static/dropbox" class="btn btn-default btn-lg">Dashboard</a>
+        </div>
+    </div>
+    <!-- /Full Page Image Header Area -->
+
+    <!-- Intro -->
+    <div id="about" class="intro">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <h2>M&A Marketplace for tech companies</h2>
+                    <p class="lead">Bringing you useful dashboards and graphs to better understand historical data and patterns in acquisitions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Intro -->
+
+    <!-- Services -->
+
+    <!-- /Services -->
+
+    <!-- Callout -->
+    <div class="callout">
+        <div class="vert-text">
+            <h1>This will provide a better way for entrepreneurs to understand their networks and technology companies in order to make better investment and acquisition decisions</h1>
+        </div>
+    </div>
+    <!-- /Callout -->
+
+    <!-- Portfolio -->
+    <div id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <h2>About</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2 text-center">
+                    <div class="portfolio-item">
+                        <a href="#">
+                            <img class="img-portfolio img-responsive" src="https://fbcdn-sphotos-g-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/1794668_10201556749215906_1660689507_n.jpg">
+                        </a>
+                        <h4>Victor</h4>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="portfolio-item">
+                        <a href="http://close.co">
+                            <img class="img-portfolio img-responsive" src="/static/logo.gif">
+                        </a>
+                        <h4>Close</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Portfolio -->
+
+    <!-- Call to Action -->
+    <div class="call-to-action">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <h3>More features coming soon</h3>
+                    <a href="#" class="btn btn-lg btn-default">Coming Soon!</a>
+                    <a href="#" class="btn btn-lg btn-primary">Coming Soon!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Call to Action -->
+
+    <!-- Map -->
+
+    <!-- /Map -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <ul class="list-inline">
+                        <li><i class="fa fa-facebook fa-3x"></i>
+                        </li>
+                        <li><i class="fa fa-twitter fa-3x"></i>
+                        </li>
+                    </ul>
+                    <div class="top-scroll">
+                        <a href="#top"><i class="fa fa-circle-arrow-up scroll fa-4x"></i></a>
+                    </div>
+                    <hr>
+                    <p>&copy; Close 2014</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- /Footer -->
+
+    <!-- JavaScript -->
+    <script src="/static/js/jquery-1.10.2.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+
+    <!-- Custom JavaScript for the Side Menu and Smooth Scrolling -->
+    <script>
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    </script>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    </script>
+    <script>
+    $(function() {
+        $('a[href*=#]:not([href=#])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+    </script>
+
+</body>
+
+</html>

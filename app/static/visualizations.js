@@ -21,7 +21,7 @@ var rowChart = dc.rowChart("#dc-row-graph");
 var other_rowChart = dc.rowChart("#other-dc-row-graph");
 
 var third_rowChart = dc.rowChart("#third-dc-row-graph");
-var fourth_rowChart = dc.rowChart("fourth-dc-row-graph");
+var fourth_pieChart = dc.pieChart("fourth-dc-pie-graph");
  
 //var moveChart = dc.lineChart("#yearly-move-chart");
 //var volumeChartSecond = dc.barChart("#yearly-volume-chart");
@@ -119,14 +119,14 @@ var ndx = crossfilter(data);
             .renderLabel(true)
             .renderlet(function (chart) {
                 rowChart.filter(chart.filter());
-		other_rowChart.filter(chart.filter());
+        other_rowChart.filter(chart.filter());
             })
             .on("postRedraw", function (chart) {
                 dc.events.trigger(function () {
                     rowChart.filter(chart.filter());
-		    other_rowChart.filter(chart.filter());
+            other_rowChart.filter(chart.filter());
                 });
-	                });
+                    });
             ;
  
 
@@ -186,11 +186,11 @@ lineChart.width(230)
 */
 
 var volumeByHour = ndx.dimension(function (d) {
-	return (d.date);
+    return (d.date);
 });
 
 var volumeByHourGroup = volumeByHour.group().reduceCount(function (d) {
-	return d.Categories;
+    return d.Categories;
 });
 
 
@@ -282,6 +282,41 @@ investorsTestGroup.all =  function() {
   return newObject;
 }
 
+function reduceTwoAdd(p, v) {
+  v.founder_education.forEach (function(val, idx) {
+     p[val] = (p[val] || 0) + 1; //increment counts
+  });
+  return p;
+}
+
+function reduceTwoRemove(p, v) {
+  v.founder_education.forEach (function(val, idx) {
+     p[val] = (p[val] || 0) - 1; //decrement counts
+  });
+  return p;
+
+}
+
+function reduceTwoInitial() {
+  return {};  
+}
+
+var educationTest = ndx.dimension(function (d) { return d.investors; });
+var educationTestGroup = educationTest.groupAll().reduce(reduceTwoAdd, reduceTwoRemove, reduceTwoInitial).value();
+// hack to make dc.js charts work
+educationTestGroup.all =  function() {
+  var newObject = [];
+  for (var key in this) {
+    if (this.hasOwnProperty(key) && key != "all") {
+      newObject.push({
+        key: key,
+        value: this[key]
+      });
+    }
+  }
+  return newObject;
+}
+
 rowChart.width(340)
             .height(850)
             .dimension(categoriesTest)
@@ -289,7 +324,7 @@ rowChart.width(340)
             .renderLabel(true)
             .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
             .colorDomain([0, 0])
-	        .xAxis().ticks(8);
+            .xAxis().ticks(8);
 //            .renderlet(function (chart) {
             //    bubbleChart.filter(chart.filter());
 //            })
@@ -301,12 +336,12 @@ rowChart.width(340)
  
 other_rowChart.width(340)
             .height(850)
-            .dimension(educationDimension)
-            .group(educationGroup)
+            .dimension(educationTest)
+            .group(educationTestGroup)
             .renderLabel(true)
             .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
             .colorDomain([0, 0])
-	        .xAxis().ticks(8);
+            .xAxis().ticks(8);
 //            .renderlet(function (chart) {
 //                bubbleChart.filter(chart.filter());
 //            })
@@ -325,14 +360,20 @@ third_rowChart.width(340)
             .colorDomain([0, 0])
             .xAxis().ticks(8);
 
-fourth_rowChart.width(340)
-            .height(850)
-            .dimension(cityDimension)
-            .group(cityGroup)
-            .renderLabel(true)
-            .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
-            .colorDomain([0, 0])
-            .xAxis().ticks(8);
+var year_acquired = ndx.dimension(function (d) {
+    return d.acquisition_date;
+});
+
+var year_group = year_acquired.group();
+
+
+fourth_pieChart.width(250)
+    .height(220)
+    .radius(100)
+    .innerRadius(30)
+    .dimension(year_acquired)
+    .group(year_group)
+    .title(function (d) {return "Acquisition date";});
 
 dataTable.width(800).height(800)
     .dimension(businessDimension)
@@ -354,7 +395,7 @@ dataTable.width(800).height(800)
 
 /*
 var yearlyDimension = ndx.dimension(function (d) {
-	return d.date;
+    return d.date;
 });
 
 moveChart
@@ -388,53 +429,53 @@ volumeChart.width(990)
 */
 
 var categories = ndx.dimension(function (d) {
-	return d.categories;
+    return d.categories;
 });
 
 var categoriesGroup = categories.group();
 
 
 testPieChart.width(250)
-	.height(220)
-	.radius(100)
-	.innerRadius(30)
-	.dimension(categoriesTest)
-	.group(categoriesTestGroup)
-	.title(function (d) {return "Cities";});
+    .height(220)
+    .radius(100)
+    .innerRadius(30)
+    .dimension(year_acquired)
+    .group(year_group)
+    .title(function (d) {return "Categories";});
 
 var industries = ndx.dimension(function (d) {
-	return d.date;
+    return d.date;
 });
 
 
-testBarChart.width(480)
-	.height(150)
-	.margins({top: 10, right: 40, bottom: 20, left: 40})
-	.dimension(cityDimension)
-	.group(cityGroup)
-	.transitionDuration(500)
-	.centerBar(true)
-	.gap(5)
- 	.x(d3.scale.ordinal().domain(categoriesTest))
- 	.elasticY(true)
- 	.xUnits(dc.units.ordinal);  
+testBarChart.width(780)
+    .height(150)
+    .margins({top: 10, right: 5, bottom: 20, left: 40})
+    .dimension(cityDimension)
+    .group(cityGroup)
+    .transitionDuration(500)
+    .centerBar(true)
+    .gap(10)
+    .x(d3.scale.ordinal().domain(categoriesTest))
+    .elasticY(true)
+    .xUnits(dc.units.ordinal);  
 
 
 var industriesGroup = industries.group()
-	.reduceCount(function (d) { d.date; })
+    .reduceCount(function (d) { d.date; })
 /*
 testBarChart.width(480)
-	.height(150)
-	.margins({top: 10, right: 10, bottom: 20, left: 40})
-	.dimension(industries)
-	.group(industriesGroup)
-	.transitionDuration(500)
-	.centerBar(true)
-	.gap(65)
-	.filter([3, 5])
-	.x(d3.scale.linear().domain([2011, 2015]))
-	.elasticY(true)
-	.xAxis().tickFormat();
+    .height(150)
+    .margins({top: 10, right: 10, bottom: 20, left: 40})
+    .dimension(industries)
+    .group(industriesGroup)
+    .transitionDuration(500)
+    .centerBar(true)
+    .gap(65)
+    .filter([3, 5])
+    .x(d3.scale.linear().domain([2011, 2015]))
+    .elasticY(true)
+    .xAxis().tickFormat();
 */
 /********************************************************
 *                                                       *

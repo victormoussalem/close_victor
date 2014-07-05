@@ -14,7 +14,7 @@ def main(root=None):
 
 @app.route('/')
 def index(root=None):
-	return render_template('homepage.html')
+	return render_template('close-victor-index.html')
 
 @app.route('/static/investments')
 def investments(root=None):
