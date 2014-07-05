@@ -24,6 +24,10 @@ def investments(root=None):
 def custom_homepage():
 	return render_template('custom_homepage.html')
 
+@app.route('/startup-funding')
+def startup_funding():
+	return render_template('startup-index.html')
+
 @app.route('/root')
 def root(root=None):
     acq = models.Company.query.all()

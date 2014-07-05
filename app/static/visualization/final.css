@@ -1,0 +1,157 @@
+/* PAGE LAYOUT */
+
+body {
+  font-family: sans-serif;
+  font-size: 10px;
+
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#barchart {
+  margin: 5px;
+  height: 200px;
+  width: 1100px;
+}
+
+#treemap {
+  margin: 5px;
+  height: 500px;
+  width: 800px;
+
+  float: left;
+}
+
+#sidebar {
+  margin: 5px;
+  height: 500px;
+  width: 290px;
+  margin-left:15px;
+}
+
+#treemap,
+#sidebar {
+  display: inline-block;
+}
+
+/* BARCHART */
+
+#barchart .axis path,
+#barchart .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#barchart .x.axis path,
+#barchart .x.axis line {
+  display: none;
+}
+
+/* TREEMAP */
+
+.breadcrumb {
+  background: none !important;  
+  display: block;
+}
+
+.breadcrumb a {
+  cursor: pointer;
+}
+
+#treemap svg {
+  background: #ddd;
+  padding:5px;
+}
+
+#treemap text {
+  font-family: sans-serif;
+  font-size: 10px;
+  pointer-events: none;
+}
+
+rect {
+  fill: none;
+  stroke: #fff;
+}
+
+rect.parent,
+.grandparent rect {
+  stroke-width: 2px;
+}
+
+.grandparent rect {
+  cursor: pointer;
+  fill: #fff;
+}
+
+.children rect.parent {
+  cursor: pointer;
+  fill: #bbb;
+  fill-opacity: .5;
+}
+
+/* SIDEBAR */
+
+#sidebar {
+  font-size: 12px;
+}
+
+#sidebar .org {
+  display: inline-block;
+  margin: 0px 5px 5px 5px;
+  padding: 3px;
+  width: 43%;
+  
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 10px;
+  text-align: center;
+}
+
+#sidebar .name,
+#sidebar .details,
+#sidebar .overview,
+#sidebar .news {
+  -webkit-user-select: all;
+  -khtml-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
+#sidebar .name {
+  font-size: 14px;
+  text-align: center;
+}
+
+#sidebar .details {
+  text-align: center;
+}
+
+#sidebar img.twitter,
+#sidebar img.web {
+  height: 10px;
+  vertical-align: middle;
+}
+
+#sidebar .overview,
+#sidebar .news {
+  max-height: 150px;
+  overflow: auto;
+}
+
+#sidebar .axis path,
+#sidebar .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+#sidebar .round {
+  text-align: center;
+}
