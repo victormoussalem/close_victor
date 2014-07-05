@@ -8,7 +8,7 @@ import time
 from app import *
 from models import models
 
-TEST_API_KEY = 'f247296fc35c9f7acadb3551b4c612a2'
+TEST_API_KEY = 'd9c8433c7e5dd3db83813bbbb908f0fe'
 
 API_BASE_URL = "http://api.crunchbase.com/"
 API_VERSION = "2"
