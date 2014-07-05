@@ -36,6 +36,7 @@ var testBarChart = dc.barChart("#dc-test-bar-chart");
 *                                                       *
 ********************************************************/
 var ndx = crossfilter(data);
+var all = ndx.groupAll();
      
 /********************************************************
 *                                                       *
@@ -441,6 +442,7 @@ testPieChart.width(250)
     .innerRadius(30)
     .dimension(year_acquired)
     .group(year_group)
+    .label(function (d) {return d.key + "(" + Math.floor(d.value / all.value() * 100) + "%)"})
     .title(function (d) {return "Categories";});
 
 var industries = ndx.dimension(function (d) {
