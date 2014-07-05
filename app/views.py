@@ -20,6 +20,10 @@ def index(root=None):
 def investments(root=None):
 	return render_template('investments.html')
 
+@app.route('/static/accelerators')
+def accelerators():
+	return render_template('accelerators.html')
+
 @app.route('/static/funding')
 def redirect_seed_db():
 	return render_template('funding.html')

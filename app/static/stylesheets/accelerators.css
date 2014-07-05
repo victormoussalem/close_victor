@@ -1,0 +1,167 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background: rgb(14,14,14);
+  margin: 0;
+  vertical-align: baseline;
+  overflow: hidden;
+}
+
+/*BEGIN: Header*/
+header {
+  font-weight: 700;
+  top:0;
+  left:0;
+  right:0;
+  width: 100%;
+  color: white;
+  background: rgba(125,205,192,1);
+  margin-bottom: 3%;
+  height: 50px;
+}
+
+#logo {
+  position: absolute;
+  padding-left: 2%;
+  font-size: 200%;
+  top:4px;
+}
+
+#logo1 {
+  color: rgb(14,14,14);
+}
+
+.logop {
+  color: rgb(230,92,40);
+}
+
+nav {
+  top: 0;
+  right: 0;
+  position: absolute;
+}
+
+.btn {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  cursor: pointer;
+  background: rgba(125,205,192,1);
+  border: none;
+  font-size: 100%;
+  margin: 0;
+  margin-left: -5px;
+  padding: 7px;
+  height: 50px;
+}
+
+.btn:disabled {
+  color: rgba(125,205,192,1);
+  background: rgb(14,14,14);
+}
+
+.btn:hover {
+  color: rgba(125,205,192,1);
+  background: rgb(14,14,14);
+}
+/*END: Header*/
+/*BEGIN: Container*/
+
+#container {
+  width: 95%;
+  margin: auto;
+  height: auto;
+}
+/*END: Container*/
+/*BEGIN: Aside*/
+aside {
+  float: left;
+  width: 25%;
+  display: block;
+}
+
+#chart {
+  border-bottom: 5px solid rgb(230,92,40);
+}
+
+#stats_title {
+  font-size: 200%;
+}
+
+#stat1, #stat2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+}
+
+.stats {
+  color: white;
+  font-size: 125%;
+}
+/*END: Aside*/
+/*BEGIN: Map*/
+#map {
+  float: right;
+  width: 74%;
+}
+
+#map_info {
+  position: absolute;
+  border: 1px solid white;
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  color: black;
+  pointer-events: none;
+}
+
+#map_info.hidden {
+  display: none;
+}
+/*END: Map*/
+/*BEGIN: Footer*/
+footer {
+  width: 100%;
+  bottom: -14%;
+  height: 17%;
+  position: absolute;
+  text-align: center;
+}
+
+#about_link {
+  color: rgba(125,205,192,1);
+  padding-bottom: 2%;
+  display: block;
+  font-size: 100%;
+}
+
+#about {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  background: rgba(125,205,192,1);
+  height: 100%;
+  font-size: 100%;
+  border-top: 5px solid white;
+  color: rgb(14,14,14);
+}
+
+#about a{
+  text-decoration: none;
+  color: white;
+  font-weight: bolder;
+}
+
+footer p {
+  padding-top: -5px;
+}
+
+#about p:nth-of-type(2) a {
+  color: rgb(230,92,40);
+}
+
+#about p:nth-of-type(2) a:hover{
+  color:white;
+}
+/*END: Footer*/
+
+/*CLEAR*/
+.clear {
+  clear: both;
+}
