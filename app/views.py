@@ -20,6 +20,10 @@ def index(root=None):
 def investments(root=None):
 	return render_template('investments.html')
 
+@app.route('/custom-homepage')
+def custom_homepage():
+	return render_template('custom_homepage.html')
+
 @app.route('/root')
 def root(root=None):
     acq = models.Company.query.all()
