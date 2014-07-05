@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content='width=device-width, initial-scale=1' name='viewport'/>
+<meta charset='utf-8'>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/jquery-1.9.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/d3.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/crossfilter.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/dc.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='javascripts/colorbrewer.js') }}"></script>
+
+<link href="{{ url_for('static', filename='stylesheets/dc.css') }}" rel='stylesheet' type='text/css'>
+<link href="{{ url_for('static', filename='stylesheets/spacelab.css') }}" rel='stylesheet' type='text/css'>
+<link href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Ubuntu:400,500,700" media="all" rel="stylesheet" />
+<script type="text/javascript" src="{{ url_for('static', filename='visualizations_facebook.js') }}"></script>
+</head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Close dashboard</a><a class="navbar-brand">        Visualization of Company Acquisitions</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Log out</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Overview</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="/static/dropbox">Dropbox portfolio</a></li>
+            <li><a href="/static/facebook">Facebook portfolio</a></li>
+            <li><a href="/static/twitter">Twitter portfolio</a></li>
+            <li><a href="/static/google">Google portfolio</a></li>
+            <li><a href="/static/apple">Apple portfolio</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="/static/gopro">GoPro portfolio</a></li>
+            <li><a href="/static/pinterest">Pinterest portfolio</a></li>
+            <li><a href="/static/microsoft">Microsoft portfolio</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Dashboard</h1>
+
+    <div class='container' id='main-container'>
+        <div class='content'>
+        <div class="dropdown">
+         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           Select Company
+            <span class="caret"></span>
+         </button>
+         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/dropbox">Dropbox</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/facebook">Facebook</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/pinterest">Pinterest</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/samsung">Samsung</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/gopro">GoPro</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/microsoft">Microsoft</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/twitter">Twitter</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/apple">Apple</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More to be added soon</a></li>
+         </ul>
+      </div>
+            <div class='container' style='font: 10px sans-serif;'>
+                <h3>Visualisation of Company Acquisitions: <a href="http://www.facebook.com/">FACEBOOK</a><img src="http://www.palaeodeserts.com/wp-content/uploads/2014/02/Facebook-logo-PSD.jpg" height = "100px" width = "100px"></h3>
+                <h4>Demo for <a href="http://www.close.co/">Close</a><img src="5872503.png"><img src="https://dt8kf6553cww8.cloudfront.net/static/images/icons/ajax-loading-small-vfl3Wt7C_.gif"></h4>
+                <div class='row-fluid'>
+                    <div class='remaining-graphs span8'>
+                        <div class='row-fluid'>
+                            <div class='bubble-graph span12' id='dc-test-bar-chart'>
+                                <h4>Cities</h4>
+                            </div>
+                        </div>
+                        <div class='row-fluid'>
+                <div Class='pie-graph span4' id='dc-test-pie-chart'>
+                  <h4>Categories</h4>
+                </div>
+                <div Class='pie-graph span7' id='fourth-dc-pie-graph' style='color:black;'>
+                  <h4>Year Acquired</h4>
+                </div>
+                <div Class='bubble-graph span 12' id = 'dc-time-chart'>
+                <h4></h4> 
+
+                        <!-- /other little graphs go here -->
+
+            <div Class='pie-graph span4' id='dc-time-chart'>
+                <h6>Industries</h6>
+            </div>
+                        <div class='row-fluid'>
+                            <div class='span12 table-graph'>
+                                <h4>Data Table for Acquisitions</h4>
+                                <table class='table table-hover dc-data-table' id='dc-table-graph'>
+                                    <thead>
+                                        <tr class='header'>
+                                            <th>Name</th>
+                                            <th>City</th>
+                                            <th>Year Acquired</th>
+                                            <th>Categories</th>
+                                            <th>Founder Education</th>
+                                            <th>Description</th>
+                                            <th>News Articles</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='remaining-graphs span4'>
+                        <div class='row-fluid'>
+                            <div class='row-graph span12' id='dc-row-graph' style='color:black;'>
+                                <h4>Category</h4>
+                </div>
+            </div>
+            <div class='row-fluid'>
+                <div class='row-graph span12' id='other-dc-row-graph' style='color:black;'>
+                    <h4>Education</h4>
+                </div>
+            </div>
+            <div class='row-fluid'>
+                <div class='row-graph span12' id='third-dc-row-graph' style='color:black;'>
+                    <h4>Investors</h4>
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

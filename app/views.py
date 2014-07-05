@@ -83,6 +83,97 @@ def dropbox_json(root=None):
 
 	return json.dumps(root)
 
+@app.route('/static/facebook.json')
+def facebook_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(2)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
+@app.route('/static/pinterest.json')
+def pinterest_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(3)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
+@app.route('/static/samsung.json')
+def samsung_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(4)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
+@app.route('/static/gopro.json')
+def gopro_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(5)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
+@app.route('/static/microsoft.json')
+def microsoft_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(6)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
+@app.route('/static/twitter.json')
+def twitter_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(7)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
+@app.route('/static/apple.json')
+def apple_json(root=None):
+
+	root = []
+	dc = {}
+
+	dbox = models.Company.query.get(8)
+
+	for aq in dbox.acquisitions:
+		root.append({"name": aq.name, "city": aq.headquarters, "founded_date": aq.founded_on_year, "acquisition_date": aq.acquisition_year, "description": aq.description, "url": aq.homepage_url, "news_titles": list(aq.nws_aq), "news_urls": list(aq.nws_url_aq), "investors": list(aq.iv_aq), "categories": list(aq.ct_aq), "founder_education": list(aq.fd_aq_education)})
+
+	return json.dumps(root)
+
 @app.route('/static/dropbox')
 def crossfilter_dropbox(root=None, dc=None):
 	acq = models.Company.query.all()

@@ -14,7 +14,7 @@
 <link href="{{ url_for('static', filename='stylesheets/spacelab.css') }}" rel='stylesheet' type='text/css'>
 <link href="{{ url_for('static', filename='stylesheets/dashboard.css') }}" rel='stylesheet' type='text/css'>
 <link href="http://fonts.googleapis.com/css?family=Ubuntu:400,500,700" media="all" rel="stylesheet" />
-<script type="text/javascript" src="{{ url_for('static', filename='visualizations.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='visualizations_dropbox.js') }}"></script>
 </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -70,17 +70,24 @@
 
     <div class='container' id='main-container'>
         <div class='content'>
-            <select class="form-control">
-             <option><a href='/static/Dropbox'>Dropbbox</a></option>
-             <option><a href='/static/Facebook'>Facebook</a></option>
-             <option value="three">Pinterest</option>
-             <option value="four">Samsung</option>
-             <option value="five">GoPro</option>
-             <option value="six">Microsoft</option>
-             <option value="seven">Twitter</option>
-             <option value="eight">Apple</option>  
-             <option value='nine'>More Coming</option>           
-            </select>
+        <div class="dropdown">
+         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+           Select Company
+            <span class="caret"></span>
+         </button>
+         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/dropbox">Dropbox</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/facebook#">Facebook</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/pinterest">Pinterest</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/samsung">Samsung</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/gopro">GoPro</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/microsoft">Microsoft</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/twitter">Twitter</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/static/apple">Apple</a></li>
+          <li role="presentation" class="divider"></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More to be added soon</a></li>
+         </ul>
+      </div>
             <div class='container' style='font: 10px sans-serif;'>
                 <h3>Visualisation of Company Acquisitions: <a href="http://www.dropbox.com/">DROPBOX</a><img src="rsz_1rsz_dropbox-logo1.png"></h3>
                 <h4>Demo for <a href="http://www.close.co/">Close</a><img src="5872503.png"><img src="https://dt8kf6553cww8.cloudfront.net/static/images/icons/ajax-loading-small-vfl3Wt7C_.gif"></h4>
