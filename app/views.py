@@ -13,8 +13,14 @@ def main(root=None):
 	return render_template('main.html')
 
 @app.route('/')
+def mainPage():
+	return render_template('under_construction_index.html')
+
+"""
+@app.route('/')
 def index(root=None):
 	return render_template('close-victor-index.html')
+"""
 
 @app.route('/static/investments')
 def investments(root=None):
